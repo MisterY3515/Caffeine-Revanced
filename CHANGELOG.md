@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- "Prevent sleep when lid is closed" preference: keeps the Mac awake when the lid is closed while Caffeine Revanced is active.
+
 ### Changed
 
+- Renamed to Caffeine Revanced throughout all user-facing strings and all 13 localizations.
 - Improved Ukrainian translation.
 
 ### Fixed

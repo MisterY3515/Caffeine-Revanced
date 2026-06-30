@@ -14,6 +14,7 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
+    @AppStorage(PreferenceKeys.preventSleepOnLidClose) private var preventSleepOnLidClose = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -29,12 +30,12 @@ struct PreferencesView: View {
                 // Description text
                 VStack(alignment: .leading, spacing: 16) {
                     Text(
-                        "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep."
+                        "Caffeine Revanced is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep."
                     )
                     .font(.system(size: 13))
                     .fixedSize(horizontal: false, vertical: true)
 
-                    Text("Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu.")
+                    Text("Right-click (or ⌃-click) the menu bar icon to show the Caffeine Revanced menu.")
                         .font(.system(size: 13, weight: .bold))
                         .foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -67,13 +68,13 @@ struct PreferencesView: View {
 
             // Checkboxes
             VStack(alignment: .leading, spacing: 8) {
-                Toggle("Activate when starting Caffeine", isOn: self.$activateAtLaunch)
+                Toggle("Activate when starting Caffeine Revanced", isOn: self.$activateAtLaunch)
                     .font(.system(size: 13))
 
                 Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
                     .font(.system(size: 13))
 
-                Toggle("Show this message when starting Caffeine", isOn: Binding(
+                Toggle("Show this message when starting Caffeine Revanced", isOn: Binding(
                     get: { !self.suppressLaunchMessage },
                     set: { self.suppressLaunchMessage = !$0 }
                 ))
@@ -92,6 +93,23 @@ struct PreferencesView: View {
                 .font(.system(size: 13))
 
                 Text("Prevents apps from becoming inactive and the screen saver from starting.")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+
+                Divider()
+                    .padding(.vertical, 4)
+
+                Toggle("Prevent sleep when lid is closed", isOn: Binding(
+                    get: { self.preventSleepOnLidClose },
+                    set: { newValue in
+                        self.preventSleepOnLidClose = newValue
+                        self.viewModel.updateLidCloseSleepPrevention(enabled: newValue)
+                    }
+                ))
+                .font(.system(size: 13))
+
+                Text("Keeps the Mac awake when the lid is closed while Caffeine Revanced is running.")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)

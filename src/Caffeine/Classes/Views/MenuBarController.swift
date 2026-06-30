@@ -148,7 +148,7 @@ class MenuBarController: NSObject {
 
         // About
         let aboutItem = NSMenuItem(
-            title: String(localized: "About Caffeine"),
+            title: String(localized: "About Caffeine Revanced"),
             action: #selector(showAbout(_:)),
             keyEquivalent: ""
         )
@@ -205,7 +205,7 @@ class MenuBarController: NSObject {
             let hostingController = NSHostingController(rootView: contentView)
 
             let window = NSWindow(contentViewController: hostingController)
-            window.title = String(localized: "Welcome to Caffeine")
+            window.title = String(localized: "Welcome to Caffeine Revanced")
             window.styleMask = [.titled, .closable]
             window.setContentSize(NSSize(width: 640, height: 420))
             window.center()

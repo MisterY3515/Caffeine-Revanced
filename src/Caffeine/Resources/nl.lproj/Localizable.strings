@@ -10,35 +10,37 @@
 "Indefinitely" = "Onbepaalde tijd";
 
 /* Status messages */
-"Caffeine is active" = "Caffeine is actief";
+"Caffeine Revanced is active" = "Caffeine Revanced is actief";
 "%d minutes" = "%d minuten";
 "%d seconds" = "%d seconden";
 
 /* Menu items */
 "Check for Updates..." = "Op updates controleren...";
 "Preferences..." = "Voorkeuren...";
-"About Caffeine" = "Over Caffeine";
+"About Caffeine Revanced" = "Over Caffeine Revanced";
 "Quit" = "Stop";
 
 /* Preferences instructions */
-"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine draait nu. Je vindt het pictogram aan de rechterkant van je menubalk. Klik om automatisch sluimeren uit te schakelen, klik nogmaals om het weer in te schakelen.";
-"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Klik met de rechtermuisknop (of met ⌃-klik) op het menubalkpictogram om het Caffeine-menu te openen.";
+"Caffeine Revanced is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine Revanced draait nu. Je vindt het pictogram aan de rechterkant van je menubalk. Klik om automatisch sluimeren uit te schakelen, klik nogmaals om het weer in te schakelen.";
+"Right-click (or ⌃-click) the menu bar icon to show the Caffeine Revanced menu." = "Klik met de rechtermuisknop (of met ⌃-klik) op het menubalkpictogram om het Caffeine Revanced-menu te openen.";
 
 /* Preferences labels */
 "Default duration:" = "Standaardduur:";
-"Activate when starting Caffeine" = "Caffeine bij starten inschakelen";
+"Activate when starting Caffeine Revanced" = "Caffeine Revanced bij starten inschakelen";
 "Deactivate when device goes to sleep manually" = "Uitschakelen wanneer het apparaat handmatig in sluimerstand gaat";
-"Show this message when starting Caffeine" = "Dit bericht tonen bij het starten van Caffeine";
+"Show this message when starting Caffeine Revanced" = "Dit bericht tonen bij het starten van Caffeine Revanced";
 "Keep apps active" = "Apps actief houden";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Voorkomt dat apps inactief worden en dat de schermbeveiliging start.";
+"Prevent sleep when lid is closed" = "Sluimerstand voorkomen bij gesloten deksel";
+"Keeps the Mac awake when the lid is closed while Caffeine Revanced is running." = "Houdt de Mac actief wanneer het deksel gesloten is terwijl Caffeine Revanced actief is.";
 "Close" = "Sluiten";
 
 /* Menu additions */
 "Activate for" = "Activeren voor";
-"Welcome to Caffeine" = "Welkom bij Caffeine";
+"Welcome to Caffeine Revanced" = "Welkom bij Caffeine Revanced";
 
 /* About credits */
 "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nBroncode:\nhttps://github.caffeine-app.net";
 
 /* System messages */
-"Caffeine prevents sleep" = "Caffeine voorkomt sluimerstand";
+"Caffeine Revanced prevents sleep" = "Caffeine Revanced voorkomt sluimerstand";

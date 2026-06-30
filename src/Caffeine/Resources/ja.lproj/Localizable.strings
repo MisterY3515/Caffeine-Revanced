@@ -10,36 +10,37 @@
 "Indefinitely" = "無期限";
 
 /* Status messages */
-"Caffeine is active" = "Caffeineはアクティブです";
+"Caffeine Revanced is active" = "Caffeine Revancedはアクティブです";
 "%d minutes" = "%d分";
 "%d seconds" = "%d秒";
 
 /* Menu items */
 "Check for Updates..." = "アップデートを確認...";
 "Preferences..." = "環境設定...";
-"About Caffeine" = "Caffeineについて";
+"About Caffeine Revanced" = "Caffeine Revancedについて";
 "Quit" = "終了";
 
 /* Preferences instructions */
-"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine が起動しました。メニューバー右側のアイコンをクリックすると自動スリープが無効になり、もう一度クリックすると再び有効になります。";
-"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "メニューバーのアイコンを右クリック（または ⌃ キーを押しながらクリック）すると Caffeine メニューが表示されます。";
+"Caffeine Revanced is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine Revanced が起動しました。メニューバー右側のアイコンをクリックすると自動スリープが無効になり、もう一度クリックすると再び有効になります。";
+"Right-click (or ⌃-click) the menu bar icon to show the Caffeine Revanced menu." = "メニューバーのアイコンを右クリック（または ⌃ キーを押しながらクリック）すると Caffeine Revanced メニューが表示されます。";
 
 /* Preferences labels */
 "Default duration:" = "デフォルトの時間:";
-"Activate when starting Caffeine" = "Caffeine 起動時に有効化";
+"Activate when starting Caffeine Revanced" = "Caffeine Revanced 起動時に有効化";
 "Deactivate when device goes to sleep manually" = "手動でスリープしたときに無効化";
-"Show this message when starting Caffeine" = "Caffeine 起動時にこのメッセージを表示";
+"Show this message when starting Caffeine Revanced" = "Caffeine Revanced 起動時にこのメッセージを表示";
 "Keep apps active" = "アプリをアクティブに保つ";
 "Prevents apps from becoming inactive and the screen saver from starting." = "アプリが非アクティブになるのを防ぎ、スクリーンセーバーの起動を防止します。";
+"Prevent sleep when lid is closed" = "ふた閉じ時のスリープを防ぐ";
+"Keeps the Mac awake when the lid is closed while Caffeine Revanced is running." = "Caffeine Revanced の実行中、ふたを閉じていても Mac をアクティブに保ちます。";
 "Close" = "閉じる";
 
 /* Menu additions */
 "Activate for" = "有効にする時間";
-"Welcome to Caffeine" = "Caffeine へようこそ";
+"Welcome to Caffeine Revanced" = "Caffeine Revanced へようこそ";
 
 /* About credits */
 "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nソースコード:\nhttps://github.caffeine-app.net";
 
 /* System messages */
-"Caffeine prevents sleep" = "Caffeine がスリープを防ぎます";
-
+"Caffeine Revanced prevents sleep" = "Caffeine Revanced がスリープを防ぎます";

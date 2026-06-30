@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import DZFoundation
 import Foundation
 import IOKit.pwr_mgt
 
@@ -13,7 +14,10 @@ import IOKit.pwr_mgt
 final class SleepPreventionManager {
     static let shared = SleepPreventionManager()
 
+    var preventLidCloseSleep = false
+
     private var sleepAssertionID: IOPMAssertionID?
+    private var lidCloseSleepAssertionID: IOPMAssertionID?
     private var assertionTimer: Timer?
     private var isUserSessionActive = true
 
@@ -22,7 +26,8 @@ final class SleepPreventionManager {
     }
 
     deinit {
-        releaseSleepAssertion()
+        releaseDisplaySleepAssertion()
+        releaseLidCloseAssertion()
         assertionTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
@@ -31,57 +36,89 @@ final class SleepPreventionManager {
 
     /// Prevents the system from sleeping
     func preventSleep() {
-        // Start or restart the assertion timer
         self.assertionTimer?.invalidate()
         self.assertionTimer = Timer.scheduledTimer(
             withTimeInterval: 10.0,
             repeats: true
         ) { [weak self] _ in
-            self?.refreshSleepAssertion()
+            self?.refreshDisplaySleepAssertion()
         }
-        self.assertionTimer?.fire() // Fire immediately
+        self.assertionTimer?.fire()
+
+        // Lid-close assertion is persistent (no timer) — create once, hold until disabled
+        DZLog("preventLidCloseSleep=\(self.preventLidCloseSleep)")
+        if self.preventLidCloseSleep {
+            self.acquireLidCloseAssertion()
+        } else {
+            self.releaseLidCloseAssertion()
+        }
     }
 
     /// Allows the system to sleep normally
     func allowSleep() {
         self.assertionTimer?.invalidate()
         self.assertionTimer = nil
-        self.releaseSleepAssertion()
+        self.releaseDisplaySleepAssertion()
+        self.releaseLidCloseAssertion()
     }
 
     // MARK: - Private Methods
 
-    private func refreshSleepAssertion() {
+    private func refreshDisplaySleepAssertion() {
         guard self.isUserSessionActive else { return }
 
-        // Release existing assertion
         if let assertionID = sleepAssertionID {
             IOPMAssertionRelease(assertionID)
         }
-
-        // Create new assertion
         var assertionID: IOPMAssertionID = 0
-        let reason = String(localized: "Caffeine prevents sleep") as CFString
+        let reason = String(localized: "Caffeine Revanced prevents sleep") as CFString
         let result = IOPMAssertionCreateWithDescription(
             kIOPMAssertPreventUserIdleDisplaySleep as CFString,
             reason,
             nil as CFString?,
             nil as CFString?,
             nil as CFString?,
-            8, // Timeout after 8 seconds
+            8,
             nil as CFString?,
             &assertionID
         )
-
         if result == kIOReturnSuccess {
             self.sleepAssertionID = assertionID
         }
     }
 
-    private func releaseSleepAssertion() {
+    private func acquireLidCloseAssertion() {
+        guard self.lidCloseSleepAssertionID == nil else {
+            DZLog("Lid-close assertion already held (id=\(self.lidCloseSleepAssertionID!))")
+            return
+        }
+        var assertionID: IOPMAssertionID = 0
+        let reason = "Caffeine Revanced prevents lid close sleep" as CFString
+        let result = IOPMAssertionCreateWithName(
+            kIOPMAssertionTypePreventSystemSleep as CFString,
+            IOPMAssertionLevel(kIOPMAssertionLevelOn),
+            reason,
+            &assertionID
+        )
+        if result == kIOReturnSuccess {
+            self.lidCloseSleepAssertionID = assertionID
+            DZLog("Lid-close assertion acquired (id=\(assertionID))")
+        } else {
+            DZLog("Lid-close assertion FAILED — IOReturn=\(String(format: "0x%08X", result))")
+        }
+    }
+
+    private func releaseDisplaySleepAssertion() {
         if let assertionID = sleepAssertionID {
             IOPMAssertionRelease(assertionID)
             self.sleepAssertionID = nil
+        }
+    }
+
+    private func releaseLidCloseAssertion() {
+        if let assertionID = lidCloseSleepAssertionID {
+            IOPMAssertionRelease(assertionID)
+            self.lidCloseSleepAssertionID = nil
         }
     }
 

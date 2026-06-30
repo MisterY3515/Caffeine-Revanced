@@ -10,36 +10,37 @@
 "Indefinitely" = "Indéfiniment";
 
 /* Status messages */
-"Caffeine is active" = "Caffeine est actif";
+"Caffeine Revanced is active" = "Caffeine Revanced est actif";
 "%d minutes" = "%d minutes";
 "%d seconds" = "%d secondes";
 
 /* Menu items */
 "Check for Updates..." = "Rechercher des mises à jour...";
 "Preferences..." = "Préférences...";
-"About Caffeine" = "À propos de Caffeine";
+"About Caffeine Revanced" = "À propos de Caffeine Revanced";
 "Quit" = "Quitter";
 
 /* Preferences instructions */
-"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine est désormais en cours d’exécution. Son icône se trouve sur la droite de votre barre de menus. Cliquez dessus pour désactiver la mise en veille automatique, cliquez à nouveau pour la réactiver.";
-"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Cliquez avec le bouton droit (ou maintenez ⌃ enfoncée) sur l'icône de la barre de menus pour afficher le menu Caffeine.";
+"Caffeine Revanced is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine Revanced est désormais en cours d'exécution. Son icône se trouve sur la droite de votre barre de menus. Cliquez dessus pour désactiver la mise en veille automatique, cliquez à nouveau pour la réactiver.";
+"Right-click (or ⌃-click) the menu bar icon to show the Caffeine Revanced menu." = "Cliquez avec le bouton droit (ou maintenez ⌃ enfoncée) sur l'icône de la barre de menus pour afficher le menu Caffeine Revanced.";
 
 /* Preferences labels */
-"Default duration:" = "Durée par défaut :";
-"Activate when starting Caffeine" = "Activer au lancement de Caffeine";
-"Deactivate when device goes to sleep manually" = "Désactiver lorsque l’appareil se met en veille manuellement";
-"Show this message when starting Caffeine" = "Afficher ce message au lancement de Caffeine";
+"Default duration:" = "Durée par défaut :";
+"Activate when starting Caffeine Revanced" = "Activer au lancement de Caffeine Revanced";
+"Deactivate when device goes to sleep manually" = "Désactiver lorsque l'appareil se met en veille manuellement";
+"Show this message when starting Caffeine Revanced" = "Afficher ce message au lancement de Caffeine Revanced";
 "Keep apps active" = "Garder les apps actives";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Empêche les apps de devenir inactives et l'économiseur d'écran de démarrer.";
+"Prevent sleep when lid is closed" = "Empêcher la mise en veille lorsque le couvercle est fermé";
+"Keeps the Mac awake when the lid is closed while Caffeine Revanced is running." = "Maintient le Mac actif lorsque le couvercle est fermé et que Caffeine Revanced est en cours d'exécution.";
 "Close" = "Fermer";
 
 /* Menu additions */
 "Activate for" = "Activer pendant";
-"Welcome to Caffeine" = "Bienvenue dans Caffeine";
+"Welcome to Caffeine Revanced" = "Bienvenue dans Caffeine Revanced";
 
 /* About credits */
-"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nCode source :\nhttps://github.caffeine-app.net";
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nCode source :\nhttps://github.caffeine-app.net";
 
 /* System messages */
-"Caffeine prevents sleep" = "Caffeine empêche la mise en veille";
-
+"Caffeine Revanced prevents sleep" = "Caffeine Revanced empêche la mise en veille";
