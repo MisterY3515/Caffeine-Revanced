@@ -1,9 +1,9 @@
 <img src="https://github.caffeine-app.net/assets/icon.png" alt="Icon" width="239"/>
 
-# Caffeine
+# Caffeine Revanced
 ### Don't let your Mac fall asleep.
 
-Caffeine is a tiny program that keeps your Mac awake, useful for ensuring that long running tasks aren't interrupted by your computer going to sleep.
+Caffeine Revanced is a tiny program based on Caffeine, with just some others tweaks.
 
 ### Installation
 
