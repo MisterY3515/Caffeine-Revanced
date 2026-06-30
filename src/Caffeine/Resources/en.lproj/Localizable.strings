@@ -44,3 +44,34 @@
 
 /* System messages */
 "Caffeine Revanced prevents sleep" = "Caffeine Revanced prevents sleep";
+
+/* New features */
+"Launch at Login" = "Launch at Login";
+"Automatically start Caffeine Revanced when you log in." = "Automatically start Caffeine Revanced when you log in.";
+"Show time remaining in menu bar" = "Show time remaining in menu bar";
+"Displays the countdown timer next to the menu bar icon." = "Displays the countdown timer next to the menu bar icon.";
+"Notify when timer expires" = "Notify when timer expires";
+"Shows a system notification when the activation period ends." = "Shows a system notification when the activation period ends.";
+"Deactivate on low battery" = "Deactivate on low battery";
+"Threshold:" = "Threshold:";
+"Automatically deactivates when on battery power and the battery level drops below the threshold." = "Automatically deactivates when on battery power and the battery level drops below the threshold.";
+"Enable global keyboard shortcut (⌘⌥C)" = "Enable global keyboard shortcut (⌘⌥C)";
+"Toggles Caffeine Revanced on and off from anywhere in the system." = "Toggles Caffeine Revanced on and off from anywhere in the system.";
+"Activate when Claude Code is running" = "Activate when Claude Code is running";
+"Automatically activates while the Claude Code CLI is running." = "Automatically activates while the Claude Code CLI is running.";
+"Activate when these apps are in the foreground" = "Activate when these apps are in the foreground";
+"Automatically activates when any of these apps is the frontmost application." = "Automatically activates when any of these apps is the frontmost application.";
+"Add App..." = "Add App...";
+"No apps added. Click Add App to get started." = "No apps added. Click Add App to get started.";
+"Activate on these Wi-Fi networks" = "Activate on these Wi-Fi networks";
+"Automatically activates when connected to any of these Wi-Fi networks." = "Automatically activates when connected to any of these Wi-Fi networks.";
+"Add Current Network" = "Add Current Network";
+"No networks added." = "No networks added.";
+"Enter network name..." = "Enter network name...";
+"Remove" = "Remove";
+"Caffeine Revanced deactivated" = "Caffeine Revanced deactivated";
+"The activation period has ended." = "The activation period has ended.";
+"General" = "General";
+"Sleep" = "Sleep";
+"Shortcut" = "Shortcut";
+"Auto-Activate" = "Auto-Activate";

@@ -44,3 +44,34 @@
 
 /* System messages */
 "Caffeine Revanced prevents sleep" = "Caffeine Revanced voorkomt sluimerstand";
+
+/* Nieuwe functies */
+"Launch at Login" = "Starten bij aanmelden";
+"Automatically start Caffeine Revanced when you log in." = "Caffeine Revanced automatisch starten bij aanmelden.";
+"Show time remaining in menu bar" = "Resterende tijd tonen in de menubalk";
+"Displays the countdown timer next to the menu bar icon." = "Toont de afteltimer naast het menubalkicoon.";
+"Notify when timer expires" = "Melden wanneer timer verloopt";
+"Shows a system notification when the activation period ends." = "Toont een systeemmelding wanneer de activeringsperiode eindigt.";
+"Deactivate on low battery" = "Deactiveren bij lage batterij";
+"Threshold:" = "Drempelwaarde:";
+"Automatically deactivates when on battery power and the battery level drops below the threshold." = "Deactiveert automatisch op batterijstroom wanneer het niveau onder de drempel valt.";
+"Enable global keyboard shortcut (⌘⌥C)" = "Globale sneltoets inschakelen (⌘⌥C)";
+"Toggles Caffeine Revanced on and off from anywhere in the system." = "Schakelt Caffeine Revanced overal in het systeem in of uit.";
+"Activate when Claude Code is running" = "Activeren wanneer Claude Code actief is";
+"Automatically activates while the Claude Code CLI is running." = "Activeert automatisch terwijl de Claude Code CLI actief is.";
+"Activate when these apps are in the foreground" = "Activeren wanneer deze apps op de voorgrond zijn";
+"Automatically activates when any of these apps is the frontmost application." = "Activeert automatisch wanneer een van deze apps de bovenste applicatie is.";
+"Add App..." = "App toevoegen…";
+"No apps added. Click Add App to get started." = "Geen apps toegevoegd. Klik op App toevoegen om te beginnen.";
+"Activate on these Wi-Fi networks" = "Activeren op deze Wi-Fi-netwerken";
+"Automatically activates when connected to any of these Wi-Fi networks." = "Activeert automatisch wanneer verbonden met een van deze Wi-Fi-netwerken.";
+"Add Current Network" = "Huidig netwerk toevoegen";
+"No networks added." = "Geen netwerken toegevoegd.";
+"Enter network name..." = "Netwerknaam invoeren…";
+"Remove" = "Verwijderen";
+"Caffeine Revanced deactivated" = "Caffeine Revanced gedeactiveerd";
+"The activation period has ended." = "De activeringsperiode is beëindigd.";
+"General" = "Algemeen";
+"Sleep" = "Slaapstand";
+"Shortcut" = "Sneltoets";
+"Auto-Activate" = "Auto-activeren";

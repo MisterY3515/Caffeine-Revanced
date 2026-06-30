@@ -44,3 +44,34 @@
 
 /* System messages */
 "Caffeine Revanced prevents sleep" = "Caffeine Revanced 会阻止睡眠";
+
+/* 新功能 */
+"Launch at Login" = "登录时启动";
+"Automatically start Caffeine Revanced when you log in." = "登录时自动启动 Caffeine Revanced。";
+"Show time remaining in menu bar" = "在菜单栏显示剩余时间";
+"Displays the countdown timer next to the menu bar icon." = "在菜单栏图标旁显示倒计时。";
+"Notify when timer expires" = "计时器结束时通知";
+"Shows a system notification when the activation period ends." = "激活期结束时显示系统通知。";
+"Deactivate on low battery" = "低电量时停用";
+"Threshold:" = "阈值：";
+"Automatically deactivates when on battery power and the battery level drops below the threshold." = "使用电池供电且电量低于阈值时自动停用。";
+"Enable global keyboard shortcut (⌘⌥C)" = "启用全局键盘快捷键 (⌘⌥C)";
+"Toggles Caffeine Revanced on and off from anywhere in the system." = "在系统任意位置切换 Caffeine Revanced 的开关。";
+"Activate when Claude Code is running" = "Claude Code 运行时激活";
+"Automatically activates while the Claude Code CLI is running." = "Claude Code CLI 运行时自动激活。";
+"Activate when these apps are in the foreground" = "这些应用程序在前台时激活";
+"Automatically activates when any of these apps is the frontmost application." = "当这些应用程序中的任意一个成为最前台应用时自动激活。";
+"Add App..." = "添加应用…";
+"No apps added. Click Add App to get started." = "未添加任何应用。点击「添加应用」开始。";
+"Activate on these Wi-Fi networks" = "在这些 Wi-Fi 网络上激活";
+"Automatically activates when connected to any of these Wi-Fi networks." = "连接到这些 Wi-Fi 网络中的任意一个时自动激活。";
+"Add Current Network" = "添加当前网络";
+"No networks added." = "未添加任何网络。";
+"Enter network name..." = "输入网络名称…";
+"Remove" = "删除";
+"Caffeine Revanced deactivated" = "Caffeine Revanced 已停用";
+"The activation period has ended." = "激活期已结束。";
+"General" = "通用";
+"Sleep" = "睡眠";
+"Shortcut" = "快捷键";
+"Auto-Activate" = "自动激活";

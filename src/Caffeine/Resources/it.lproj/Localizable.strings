@@ -44,3 +44,34 @@
 
 /* System messages */
 "Caffeine Revanced prevents sleep" = "Caffeine Revanced impedisce lo stop";
+
+/* Nuove funzionalità */
+"Launch at Login" = "Lancia all'accesso";
+"Automatically start Caffeine Revanced when you log in." = "Avvia automaticamente Caffeine Revanced quando accedi.";
+"Show time remaining in menu bar" = "Mostra il tempo rimanente nella barra dei menu";
+"Displays the countdown timer next to the menu bar icon." = "Visualizza il conto alla rovescia accanto all'icona nella barra dei menu.";
+"Notify when timer expires" = "Notifica alla scadenza del timer";
+"Shows a system notification when the activation period ends." = "Mostra una notifica di sistema quando il periodo di attivazione termina.";
+"Deactivate on low battery" = "Disattiva con batteria scarica";
+"Threshold:" = "Soglia:";
+"Automatically deactivates when on battery power and the battery level drops below the threshold." = "Si disattiva automaticamente quando la batteria scende sotto la soglia con alimentazione a batteria.";
+"Enable global keyboard shortcut (⌘⌥C)" = "Attiva la scorciatoia globale (⌘⌥C)";
+"Toggles Caffeine Revanced on and off from anywhere in the system." = "Attiva e disattiva Caffeine Revanced da qualsiasi punto del sistema.";
+"Activate when Claude Code is running" = "Attiva quando Claude Code è in esecuzione";
+"Automatically activates while the Claude Code CLI is running." = "Si attiva automaticamente mentre il CLI Claude Code è in esecuzione.";
+"Activate when these apps are in the foreground" = "Attiva quando queste app sono in primo piano";
+"Automatically activates when any of these apps is the frontmost application." = "Si attiva automaticamente quando una di queste app è l'applicazione in primo piano.";
+"Add App..." = "Aggiungi app...";
+"No apps added. Click Add App to get started." = "Nessuna app aggiunta. Clicca Aggiungi app per iniziare.";
+"Activate on these Wi-Fi networks" = "Attiva su queste reti Wi-Fi";
+"Automatically activates when connected to any of these Wi-Fi networks." = "Si attiva automaticamente quando sei connesso a una di queste reti Wi-Fi.";
+"Add Current Network" = "Aggiungi rete corrente";
+"No networks added." = "Nessuna rete aggiunta.";
+"Enter network name..." = "Inserisci nome rete...";
+"Remove" = "Rimuovi";
+"Caffeine Revanced deactivated" = "Caffeine Revanced disattivato";
+"The activation period has ended." = "Il periodo di attivazione è terminato.";
+"General" = "Generali";
+"Sleep" = "Riposo";
+"Shortcut" = "Scorciatoia";
+"Auto-Activate" = "Attivazione Auto";

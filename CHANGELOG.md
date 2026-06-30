@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - "Prevent sleep when lid is closed" preference: keeps the Mac awake when the lid is closed while Caffeine Revanced is active.
+- Launch at Login: automatically start Caffeine Revanced at login via SMAppService.
+- Show time remaining in menu bar: displays countdown timer next to the menu bar icon.
+- Notify when timer expires: sends a system notification when the activation period ends.
+- Deactivate on low battery: auto-deactivates when on battery power below a configurable threshold.
+- Global keyboard shortcut ⌘⌥C: toggles Caffeine Revanced from anywhere in the system (Carbon RegisterEventHotKey, no Accessibility permission required).
+- Auto-activate when Claude Code CLI is running: activates automatically while `claude` process is detected; deactivates when it exits.
+- Auto-activate for specific apps: activates when a watched app is the frontmost application.
+- Auto-activate on specific Wi-Fi networks: activates when connected to a saved SSID.
+- Preferences reorganised into four tabs: General, Sleep, Shortcut, Auto-Activate.
 
 ### Changed
 

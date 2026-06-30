@@ -44,3 +44,34 @@
 
 /* System messages */
 "Caffeine Revanced prevents sleep" = "Caffeine Revanced がスリープを防ぎます";
+
+/* 新機能 */
+"Launch at Login" = "ログイン時に起動";
+"Automatically start Caffeine Revanced when you log in." = "ログイン時にCaffeine Revancedを自動的に起動します。";
+"Show time remaining in menu bar" = "メニューバーに残り時間を表示";
+"Displays the countdown timer next to the menu bar icon." = "メニューバーアイコンの横にカウントダウンタイマーを表示します。";
+"Notify when timer expires" = "タイマー終了時に通知";
+"Shows a system notification when the activation period ends." = "アクティベーション期間が終了したときにシステム通知を表示します。";
+"Deactivate on low battery" = "バッテリー残量が少ない場合に無効化";
+"Threshold:" = "しきい値：";
+"Automatically deactivates when on battery power and the battery level drops below the threshold." = "バッテリー駆動時にバッテリーレベルがしきい値を下回ると自動的に無効化します。";
+"Enable global keyboard shortcut (⌘⌥C)" = "グローバルキーボードショートカットを有効にする (⌘⌥C)";
+"Toggles Caffeine Revanced on and off from anywhere in the system." = "システム上のどこからでもCaffeine Revancedのオン/オフを切り替えます。";
+"Activate when Claude Code is running" = "Claude Code実行中に有効化";
+"Automatically activates while the Claude Code CLI is running." = "Claude Code CLIの実行中に自動的に有効化します。";
+"Activate when these apps are in the foreground" = "これらのアプリが前面にある時に有効化";
+"Automatically activates when any of these apps is the frontmost application." = "これらのアプリのいずれかが最前面になったとき自動的に有効化します。";
+"Add App..." = "アプリを追加…";
+"No apps added. Click Add App to get started." = "アプリが追加されていません。「アプリを追加」をクリックして始めてください。";
+"Activate on these Wi-Fi networks" = "これらのWi-Fiネットワークで有効化";
+"Automatically activates when connected to any of these Wi-Fi networks." = "これらのWi-Fiネットワークのいずれかに接続したとき自動的に有効化します。";
+"Add Current Network" = "現在のネットワークを追加";
+"No networks added." = "ネットワークが追加されていません。";
+"Enter network name..." = "ネットワーク名を入力…";
+"Remove" = "削除";
+"Caffeine Revanced deactivated" = "Caffeine Revancedが無効化されました";
+"The activation period has ended." = "アクティベーション期間が終了しました。";
+"General" = "一般";
+"Sleep" = "スリープ";
+"Shortcut" = "ショートカット";
+"Auto-Activate" = "自動起動";

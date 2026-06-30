@@ -2,8 +2,6 @@
 //  MenuBarController.swift
 //  Caffeine
 //
-//  Created by Dominic Rodemer on 11.11.25.
-//
 
 import Cocoa
 import Combine
@@ -24,9 +22,6 @@ class MenuBarController: NSObject {
         super.init()
         self.setupMenuBar()
         self.setupObservers()
-
-        // Ensure icon reflects the current state after full initialization
-        // This is important because ViewModel.init() might activate if "activate at launch" is enabled
         self.updateIcon()
     }
 
@@ -39,10 +34,7 @@ class MenuBarController: NSObject {
 
     private func setupMenuBar() {
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-
         guard let button = statusItem?.button else { return }
-
-        // Set up button actions (icon will be set after observers are configured)
         button.action = #selector(self.statusItemClicked(_:))
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
@@ -52,34 +44,51 @@ class MenuBarController: NSObject {
         self.viewModel.$isActive
             .sink { [weak self] _ in
                 guard let self else { return }
-                DispatchQueue.main.async {
-                    self.updateIcon()
-                }
+                DispatchQueue.main.async { self.updateIcon() }
+            }
+            .store(in: &self.cancellables)
+
+        self.viewModel.$timeRemaining
+            .sink { [weak self] _ in
+                guard let self else { return }
+                DispatchQueue.main.async { self.updateMenuBarTitle() }
             }
             .store(in: &self.cancellables)
 
         self.viewModel.$showPreferences
             .sink { [weak self] show in
-                if show {
-                    self?.showPreferencesWindow()
-                }
+                if show { self?.showPreferencesWindow() }
             }
             .store(in: &self.cancellables)
     }
 
     private func updateIcon() {
         guard let button = statusItem?.button else { return }
-
         let imageName = self.viewModel.isActive ? "active" : "inactive"
         if let image = NSImage(named: NSImage.Name(imageName)) {
             button.image = image
+        }
+        self.updateMenuBarTitle()
+    }
+
+    private func updateMenuBarTitle() {
+        guard let button = statusItem?.button else { return }
+        guard UserDefaults.standard.bool(forKey: PreferenceKeys.showTimeInMenuBar) else {
+            button.title = ""
+            return
+        }
+        if let short = self.viewModel.formattedTimeRemainingShort() {
+            button.title = " \(short)"
+        } else if self.viewModel.isActive {
+            button.title = " ∞"
+        } else {
+            button.title = ""
         }
     }
 
     @objc
     private func statusItemClicked(_: NSStatusBarButton) {
         guard let event = NSApp.currentEvent else { return }
-
         if event.type == .rightMouseUp || (event.type == .leftMouseUp && event.modifierFlags.contains(.control)) {
             self.showContextMenu()
         } else {
@@ -90,7 +99,6 @@ class MenuBarController: NSObject {
     private func showContextMenu() {
         let menu = NSMenu()
 
-        // Status info (only show if active)
         if self.viewModel.isActive, let timeString = viewModel.formattedTimeRemaining() {
             let infoItem = NSMenuItem(title: timeString, action: nil, keyEquivalent: "")
             infoItem.isEnabled = false
@@ -98,7 +106,6 @@ class MenuBarController: NSObject {
             menu.addItem(NSMenuItem.separator())
         }
 
-        // Duration options in submenu
         let activateForItem = NSMenuItem(
             title: String(localized: "Activate for"),
             action: nil,
@@ -134,10 +141,8 @@ class MenuBarController: NSObject {
 
         activateForItem.submenu = submenu
         menu.addItem(activateForItem)
-
         menu.addItem(NSMenuItem.separator())
 
-        // Preferences
         let prefsItem = NSMenuItem(
             title: String(localized: "Preferences..."),
             action: #selector(showPreferences(_:)),
@@ -146,7 +151,6 @@ class MenuBarController: NSObject {
         prefsItem.target = self
         menu.addItem(prefsItem)
 
-        // About
         let aboutItem = NSMenuItem(
             title: String(localized: "About Caffeine Revanced"),
             action: #selector(showAbout(_:)),
@@ -155,7 +159,6 @@ class MenuBarController: NSObject {
         aboutItem.target = self
         menu.addItem(aboutItem)
 
-        // Update
         let updatesItem = NSMenuItem(
             title: String(localized: "Check for Updates..."),
             action: #selector(checkForUpdates(_:)),
@@ -166,7 +169,6 @@ class MenuBarController: NSObject {
 
         menu.addItem(NSMenuItem.separator())
 
-        // Quit
         let quitItem = NSMenuItem(
             title: String(localized: "Quit"),
             action: #selector(quit(_:)),
@@ -207,7 +209,7 @@ class MenuBarController: NSObject {
             let window = NSWindow(contentViewController: hostingController)
             window.title = String(localized: "Welcome to Caffeine Revanced")
             window.styleMask = [.titled, .closable]
-            window.setContentSize(NSSize(width: 640, height: 420))
+            window.setContentSize(NSSize(width: 680, height: 600))
             window.center()
 
             self.preferencesWindow = window
@@ -220,10 +222,9 @@ class MenuBarController: NSObject {
     private func showAbout(_: Any?) {
         NSApp.activate(ignoringOtherApps: true)
 
-        let credits =
-            String(
-                localized: "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net"
-            )
+        let credits = String(
+            localized: "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net"
+        )
 
         NSApp.orderFrontStandardAboutPanel(options: [
             .credits: NSAttributedString(string: credits),

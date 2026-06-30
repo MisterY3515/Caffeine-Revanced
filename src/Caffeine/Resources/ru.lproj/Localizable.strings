@@ -44,3 +44,34 @@
 
 /* System messages */
 "Caffeine Revanced prevents sleep" = "Caffeine Revanced предотвращает переход в сон";
+
+/* Новые функции */
+"Launch at Login" = "Запускать при входе";
+"Automatically start Caffeine Revanced when you log in." = "Автоматически запускать Caffeine Revanced при входе в систему.";
+"Show time remaining in menu bar" = "Показывать оставшееся время в строке меню";
+"Displays the countdown timer next to the menu bar icon." = "Отображает таймер обратного отсчёта рядом со значком в строке меню.";
+"Notify when timer expires" = "Уведомлять при истечении таймера";
+"Shows a system notification when the activation period ends." = "Отображает системное уведомление по окончании периода активации.";
+"Deactivate on low battery" = "Деактивировать при низком заряде";
+"Threshold:" = "Порог:";
+"Automatically deactivates when on battery power and the battery level drops below the threshold." = "Автоматически деактивируется при питании от аккумулятора при падении уровня ниже порога.";
+"Enable global keyboard shortcut (⌘⌥C)" = "Включить глобальное сочетание клавиш (⌘⌥C)";
+"Toggles Caffeine Revanced on and off from anywhere in the system." = "Переключает Caffeine Revanced из любого места в системе.";
+"Activate when Claude Code is running" = "Активировать при запущенном Claude Code";
+"Automatically activates while the Claude Code CLI is running." = "Автоматически активируется, пока запущен CLI Claude Code.";
+"Activate when these apps are in the foreground" = "Активировать при этих приложениях на переднем плане";
+"Automatically activates when any of these apps is the frontmost application." = "Автоматически активируется, когда одно из этих приложений находится на переднем плане.";
+"Add App..." = "Добавить приложение…";
+"No apps added. Click Add App to get started." = "Приложения не добавлены. Нажмите «Добавить приложение», чтобы начать.";
+"Activate on these Wi-Fi networks" = "Активировать в этих сетях Wi-Fi";
+"Automatically activates when connected to any of these Wi-Fi networks." = "Автоматически активируется при подключении к одной из этих сетей Wi-Fi.";
+"Add Current Network" = "Добавить текущую сеть";
+"No networks added." = "Сети не добавлены.";
+"Enter network name..." = "Ввести имя сети…";
+"Remove" = "Удалить";
+"Caffeine Revanced deactivated" = "Caffeine Revanced деактивирован";
+"The activation period has ended." = "Период активации завершён.";
+"General" = "Основные";
+"Sleep" = "Сон";
+"Shortcut" = "Сочетание";
+"Auto-Activate" = "Авто-активация";
