@@ -17,24 +17,22 @@ final class SleepPreventionManager {
     var preventLidCloseSleep = false
 
     private var sleepAssertionID: IOPMAssertionID?
-    private var lidCloseSleepAssertionID: IOPMAssertionID?
     private var assertionTimer: Timer?
     private var isUserSessionActive = true
+    private var sleepDisabledByUs = false
 
     private init() {
         self.setupWorkspaceNotifications()
     }
 
     deinit {
-        releaseDisplaySleepAssertion()
-        releaseLidCloseAssertion()
-        assertionTimer?.invalidate()
+        self.releaseDisplaySleepAssertion()
+        self.assertionTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: - Public Methods
 
-    /// Prevents the system from sleeping
     func preventSleep() {
         self.assertionTimer?.invalidate()
         self.assertionTimer = Timer.scheduledTimer(
@@ -45,21 +43,27 @@ final class SleepPreventionManager {
         }
         self.assertionTimer?.fire()
 
-        // Lid-close assertion is persistent (no timer) — create once, hold until disabled
         DZLog("preventLidCloseSleep=\(self.preventLidCloseSleep)")
         if self.preventLidCloseSleep {
-            self.acquireLidCloseAssertion()
+            self.setSystemSleepDisabled(true)
         } else {
-            self.releaseLidCloseAssertion()
+            self.setSystemSleepDisabled(false)
         }
     }
 
-    /// Allows the system to sleep normally
     func allowSleep() {
         self.assertionTimer?.invalidate()
         self.assertionTimer = nil
         self.releaseDisplaySleepAssertion()
-        self.releaseLidCloseAssertion()
+        self.setSystemSleepDisabled(false)
+    }
+
+    /// Synchronous version for use during app termination — blocks until pmset completes.
+    func cleanupSynchronously() {
+        self.assertionTimer?.invalidate()
+        self.assertionTimer = nil
+        self.releaseDisplaySleepAssertion()
+        self.setSystemSleepDisabled(false, synchronous: true)
     }
 
     // MARK: - Private Methods
@@ -67,7 +71,7 @@ final class SleepPreventionManager {
     private func refreshDisplaySleepAssertion() {
         guard self.isUserSessionActive else { return }
 
-        if let assertionID = sleepAssertionID {
+        if let assertionID = self.sleepAssertionID {
             IOPMAssertionRelease(assertionID)
         }
         var assertionID: IOPMAssertionID = 0
@@ -78,7 +82,7 @@ final class SleepPreventionManager {
             nil as CFString?,
             nil as CFString?,
             nil as CFString?,
-            8,
+            20,
             nil as CFString?,
             &assertionID
         )
@@ -87,38 +91,46 @@ final class SleepPreventionManager {
         }
     }
 
-    private func acquireLidCloseAssertion() {
-        guard self.lidCloseSleepAssertionID == nil else {
-            DZLog("Lid-close assertion already held (id=\(self.lidCloseSleepAssertionID!))")
-            return
+    /// Enables or disables clamshell sleep via `pmset -a disablesleep`.
+    /// Requires administrator privileges — shows a system password dialog.
+    /// - Parameter synchronous: When true, blocks the calling thread until pmset exits.
+    ///   Use this only during app termination to ensure cleanup before the process dies.
+    private func setSystemSleepDisabled(_ disabled: Bool, synchronous: Bool = false) {
+        guard self.sleepDisabledByUs != disabled else { return }
+
+        let value = disabled ? "1" : "0"
+        let script = "do shell script \"pmset -a disablesleep \(value)\" with administrator privileges"
+        DZLog("setSystemSleepDisabled \(value) (sync=\(synchronous))")
+
+        let work = { [weak self] in
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+            process.arguments = ["-e", script]
+            do {
+                try process.run()
+                process.waitUntilExit()
+                if process.terminationStatus == 0 {
+                    self?.sleepDisabledByUs = disabled
+                    DZLog("pmset disablesleep \(value) OK")
+                } else {
+                    DZLog("pmset disablesleep \(value) cancelled or failed (status=\(process.terminationStatus))")
+                }
+            } catch {
+                DZLog("pmset disablesleep error: \(error)")
+            }
         }
-        var assertionID: IOPMAssertionID = 0
-        let reason = "Caffeine Revanced prevents lid close sleep" as CFString
-        let result = IOPMAssertionCreateWithName(
-            kIOPMAssertionTypePreventSystemSleep as CFString,
-            IOPMAssertionLevel(kIOPMAssertionLevelOn),
-            reason,
-            &assertionID
-        )
-        if result == kIOReturnSuccess {
-            self.lidCloseSleepAssertionID = assertionID
-            DZLog("Lid-close assertion acquired (id=\(assertionID))")
+
+        if synchronous {
+            DispatchQueue.global(qos: .userInitiated).sync(execute: work)
         } else {
-            DZLog("Lid-close assertion FAILED — IOReturn=\(String(format: "0x%08X", result))")
+            DispatchQueue.global(qos: .userInitiated).async(execute: work)
         }
     }
 
     private func releaseDisplaySleepAssertion() {
-        if let assertionID = sleepAssertionID {
+        if let assertionID = self.sleepAssertionID {
             IOPMAssertionRelease(assertionID)
             self.sleepAssertionID = nil
-        }
-    }
-
-    private func releaseLidCloseAssertion() {
-        if let assertionID = lidCloseSleepAssertionID {
-            IOPMAssertionRelease(assertionID)
-            self.lidCloseSleepAssertionID = nil
         }
     }
 

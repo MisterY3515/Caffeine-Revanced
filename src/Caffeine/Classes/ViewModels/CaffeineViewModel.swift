@@ -351,10 +351,10 @@ class CaffeineViewModel: ObservableObject {
             }
         }
 
+        HotkeyManager.shared.onToggle = { [weak self] in
+            Task { @MainActor in self?.toggleActive() }
+        }
         if UserDefaults.standard.bool(forKey: PreferenceKeys.globalHotkeyEnabled) {
-            HotkeyManager.shared.onToggle = { [weak self] in
-                Task { @MainActor in self?.toggleActive() }
-            }
             HotkeyManager.shared.register()
         }
     }

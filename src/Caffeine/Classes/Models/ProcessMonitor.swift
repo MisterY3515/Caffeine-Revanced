@@ -26,6 +26,9 @@ final class ProcessMonitor {
 
     func watch(processName: String) {
         self.watchedProcessNames.insert(processName)
+        if self.isRunning {
+            self.poll()
+        }
     }
 
     func unwatch(processName: String) {

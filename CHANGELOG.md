@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show time remaining in menu bar: displays countdown timer next to the menu bar icon.
 - Notify when timer expires: sends a system notification when the activation period ends.
 - Deactivate on low battery: auto-deactivates when on battery power below a configurable threshold.
-- Global keyboard shortcut ⌘⌥C: toggles Caffeine Revanced from anywhere in the system (Carbon RegisterEventHotKey, no Accessibility permission required).
+- Global keyboard shortcut ⌘⌥C: toggles Caffeine Revanced from anywhere in the system (requires Accessibility permission in System Settings).
 - Auto-activate when Claude Code CLI is running: activates automatically while `claude` process is detected; deactivates when it exits.
 - Auto-activate for specific apps: activates when a watched app is the frontmost application.
 - Auto-activate on specific Wi-Fi networks: activates when connected to a saved SSID.
@@ -28,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
+- Global shortcut ⌘⌥C now correctly toggles Caffeine when enabled from Preferences (callback was only wired at launch if already enabled).
+- Claude Code auto-activation now detects `claude` immediately when the feature is enabled, without waiting for the next 5-second poll.
+- Display sleep assertion timeout increased from 8 s to 20 s to eliminate a 2-second gap between the 10-second refresh timer and assertion expiry.
+- "Prevent sleep when lid is closed" now uses `pmset -a disablesleep 1` (requires administrator password) instead of the IOPMAssertion approach that did not actually prevent clamshell sleep.
 
 ## [1.6.3] - 2026-01-26
 
