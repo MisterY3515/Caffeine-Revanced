@@ -31,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Global shortcut ⌘⌥C now correctly toggles Caffeine when enabled from Preferences (callback was only wired at launch if already enabled).
 - Claude Code auto-activation now detects `claude` immediately when the feature is enabled, without waiting for the next 5-second poll.
 - Display sleep assertion timeout increased from 8 s to 20 s to eliminate a 2-second gap between the 10-second refresh timer and assertion expiry.
-- "Prevent sleep when lid is closed" now uses `pmset -a disablesleep 1` (requires administrator password) instead of the IOPMAssertion approach that did not actually prevent clamshell sleep.
+- "Prevent sleep when lid is closed" now uses `pmset -a disablesleep` via a sudoers entry (`/etc/sudoers.d/caffeine-revanced`) written on first use. A single administrator password prompt appears when enabling the preference; all subsequent activations and deactivations run silently without any dialog. Disabling the preference removes the sudoers file automatically.
+- Sleep prevention now holds two IOPMAssertions simultaneously (`NoDisplaySleep` + `NoIdleSleep`) with no timeout, eliminating the timing gap that previously caused the Mac to enter standby.
 
 ## [1.6.3] - 2026-01-26
 

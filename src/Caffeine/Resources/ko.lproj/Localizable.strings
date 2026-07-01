@@ -75,3 +75,9 @@
 "Sleep" = "절전";
 "Shortcut" = "단축키";
 "Auto-Activate" = "자동 활성화";
+
+/* Lid-close sudoers alert */
+"Administrator Access Required" = "관리자 접근이 필요합니다";
+"Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "이 옵션을 활성화하면 Caffeine Revanced가 매번 암호를 요청하지 않고 덮개를 닫을 때 절전 모드를 방지할 수 있는 시스템 파일이 생성됩니다. 비활성화하면 파일이 자동으로 제거됩니다.";
+"Continue" = "계속";
+"Keeps the Mac awake when the lid is closed while Caffeine Revanced is running. Requires one-time administrator authorization." = "Caffeine Revanced가 실행되는 동안 덮개를 닫아도 Mac이 절전 모드로 전환되지 않습니다. 관리자 인증이 한 번 필요합니다.";

@@ -43,8 +43,11 @@ class CaffeineViewModel: ObservableObject {
         self.setupObservers()
         self.setupMonitors()
 
+        SleepPreventionManager.shared.preventLidCloseSleep =
+            UserDefaults.standard.bool(forKey: PreferenceKeys.preventSleepOnLidClose)
+
         if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
-            self.activate()
+            self.activate(promptForAuth: false)
         }
 
         if !UserDefaults.standard.bool(forKey: PreferenceKeys.suppressLaunchMessage) {
@@ -59,7 +62,7 @@ class CaffeineViewModel: ObservableObject {
             self.suppressedAutoSources.formUnion(self.autoActiveSources)
             self.autoActiveSources.removeAll()
             self.manuallyActivated = false
-            self.deactivate()
+            self.deactivate(promptForAuth: true)
         } else {
             self.manuallyActivated = true
             self.suppressedAutoSources.removeAll()
@@ -67,7 +70,19 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
-    func activate(withTimeout timeout: TimeInterval? = nil) {
+    /// Activates Caffeine. The icon changes immediately.
+    ///
+    /// If lid-close prevention is enabled and credentials are not cached, the
+    /// system password dialog appears after activation — cancelling it leaves
+    /// Caffeine active but without lid-close prevention for this session.
+    ///
+    /// Pass `promptForAuth: false` for automated activations so no unexpected
+    /// dialog appears without direct user intent.
+    func activate(withTimeout timeout: TimeInterval? = nil, promptForAuth: Bool = true) {
+        self.startActivation(withTimeout: timeout, promptForAuth: promptForAuth)
+    }
+
+    private func startActivation(withTimeout timeout: TimeInterval?, promptForAuth: Bool = true) {
         let duration: TimeInterval?
         if let timeout {
             duration = timeout > 0 ? timeout : nil
@@ -81,11 +96,13 @@ class CaffeineViewModel: ObservableObject {
         if let duration {
             self.timeRemaining = duration
 
-            self.timeoutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) { [weak self] _ in
+            self.timeoutTimer = Timer.scheduledTimer(withTimeInterval: duration, repeats: false) {
+                [weak self] _ in
                 DispatchQueue.main.async { self?.handleTimerExpiry() }
             }
 
-            self.displayTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self.displayTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {
+                [weak self] _ in
                 DispatchQueue.main.async {
                     guard let self, let timeoutTimer = self.timeoutTimer else {
                         self?.displayTimer?.invalidate()
@@ -103,19 +120,18 @@ class CaffeineViewModel: ObservableObject {
         }
 
         self.isActive = true
-        SleepPreventionManager.shared.preventLidCloseSleep = UserDefaults.standard.bool(forKey: PreferenceKeys.preventSleepOnLidClose)
-        SleepPreventionManager.shared.preventSleep()
+        SleepPreventionManager.shared.preventSleep(promptIfNeeded: promptForAuth)
 
         if UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive) {
             ActivitySimulator.shared.startMonitoring()
         }
     }
 
-    func deactivate() {
+    func deactivate(promptForAuth: Bool = false) {
         self.cancelTimers()
         self.timeRemaining = nil
         self.isActive = false
-        SleepPreventionManager.shared.allowSleep()
+        SleepPreventionManager.shared.allowSleep(promptIfNeeded: promptForAuth)
         ActivitySimulator.shared.stopMonitoring()
     }
 
@@ -129,7 +145,7 @@ class CaffeineViewModel: ObservableObject {
         self.autoActiveSources.insert(source)
         DZLog("autoActivate: \(source), sources=\(self.autoActiveSources)")
         if !self.isActive {
-            self.activate()
+            self.activate(promptForAuth: false)
         }
     }
 
@@ -144,10 +160,41 @@ class CaffeineViewModel: ObservableObject {
 
     // MARK: - Preference Update Helpers
 
-    func updateLidCloseSleepPrevention(enabled: Bool) {
+    /// Called when the user toggles "Prevent sleep when lid is closed" in Preferences.
+    ///
+    /// Enabling installs `/etc/sudoers.d/caffeine-revanced` on first use (one admin
+    /// password prompt) so all future pmset calls are silent. Disabling removes
+    /// the sudoers file automatically. Rolls back the preference on failure.
+    func updateLidCloseSleepPrevention(enabled: Bool, completion: @escaping (Bool) -> Void) {
         SleepPreventionManager.shared.preventLidCloseSleep = enabled
-        if self.isActive {
-            SleepPreventionManager.shared.preventSleep()
+
+        if enabled {
+            if self.isActive {
+                // Caffeine running: apply pmset 1 now (installs sudoers if first use).
+                SleepPreventionManager.shared.applyLidCloseChange(true, promptIfNeeded: true) { success in
+                    if !success { SleepPreventionManager.shared.preventLidCloseSleep = false }
+                    completion(success)
+                }
+            } else {
+                // Caffeine not running: install sudoers entry now (pmset 0, no-op for sleep state)
+                // so activation/deactivation later are fully silent.
+                SleepPreventionManager.shared.ensureAdminAccess { success in
+                    if !success { SleepPreventionManager.shared.preventLidCloseSleep = false }
+                    completion(success)
+                }
+            }
+        } else {
+            // Disabling: restore pmset 0 if Caffeine is active, then remove sudoers file.
+            if self.isActive {
+                SleepPreventionManager.shared.applyLidCloseChange(false, promptIfNeeded: true) { success in
+                    if !success { SleepPreventionManager.shared.preventLidCloseSleep = true }
+                    SleepPreventionManager.shared.removeSudoersEntry { _ in }
+                    completion(success)
+                }
+            } else {
+                SleepPreventionManager.shared.removeSudoersEntry { _ in }
+                completion(true)
+            }
         }
     }
 
@@ -204,7 +251,8 @@ class CaffeineViewModel: ObservableObject {
     }
 
     func requestNotificationAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
+            granted, error in
             DZLog("Notification authorization granted=\(granted)")
             DZErrorLog(error)
         }
@@ -214,7 +262,7 @@ class CaffeineViewModel: ObservableObject {
 
     func watchedApps() -> [WatchedApp] {
         guard let data = UserDefaults.standard.data(forKey: PreferenceKeys.appActivationApps),
-              let apps = try? JSONDecoder().decode([WatchedApp].self, from: data)
+            let apps = try? JSONDecoder().decode([WatchedApp].self, from: data)
         else { return [] }
         return apps
     }
@@ -229,7 +277,7 @@ class CaffeineViewModel: ObservableObject {
 
     func watchedNetworks() -> [String] {
         guard let data = UserDefaults.standard.data(forKey: PreferenceKeys.networkActivationSSIDs),
-              let nets = try? JSONDecoder().decode([String].self, from: data)
+            let nets = try? JSONDecoder().decode([String].self, from: data)
         else { return [] }
         return nets
     }
@@ -302,8 +350,10 @@ class CaffeineViewModel: ObservableObject {
         ) { [weak self] notification in
             guard let self else { return }
             guard UserDefaults.standard.bool(forKey: PreferenceKeys.appActivationEnabled) else { return }
-            guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication,
-                  let bid = app.bundleIdentifier
+            guard
+                let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey]
+                    as? NSRunningApplication,
+                let bid = app.bundleIdentifier
             else { return }
 
             let watched = Set(self.watchedApps().map(\.bundleID))
@@ -318,7 +368,9 @@ class CaffeineViewModel: ObservableObject {
     private func setupMonitors() {
         BatteryMonitor.shared.onStateChanged = { [weak self] level, isOnBattery in
             guard let self else { return }
-            guard UserDefaults.standard.bool(forKey: PreferenceKeys.batteryThresholdEnabled) else { return }
+            guard UserDefaults.standard.bool(forKey: PreferenceKeys.batteryThresholdEnabled) else {
+                return
+            }
             let threshold = max(1, UserDefaults.standard.integer(forKey: PreferenceKeys.batteryThreshold))
             if isOnBattery, level < threshold, self.isActive {
                 DZLog("Battery below threshold (\(level)% < \(threshold)%), deactivating")
@@ -360,7 +412,9 @@ class CaffeineViewModel: ObservableObject {
     }
 
     private func handleSSIDChange(_ ssid: String?) {
-        guard UserDefaults.standard.bool(forKey: PreferenceKeys.networkActivationEnabled) else { return }
+        guard UserDefaults.standard.bool(forKey: PreferenceKeys.networkActivationEnabled) else {
+            return
+        }
         let watched = self.watchedNetworks()
         if let ssid, watched.contains(ssid) {
             self.autoActivate(source: "network")

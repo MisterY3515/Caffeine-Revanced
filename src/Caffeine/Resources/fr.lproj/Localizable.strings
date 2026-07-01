@@ -75,3 +75,9 @@
 "Sleep" = "Veille";
 "Shortcut" = "Raccourci";
 "Auto-Activate" = "Auto-activation";
+
+/* Lid-close sudoers alert */
+"Administrator Access Required" = "Accès administrateur requis";
+"Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "L'activation de cette option crée un fichier système permettant à Caffeine Revanced d'empêcher la mise en veille lors de la fermeture du couvercle sans demander le mot de passe à chaque fois. La désactivation supprimera automatiquement le fichier.";
+"Continue" = "Continuer";
+"Keeps the Mac awake when the lid is closed while Caffeine Revanced is running. Requires one-time administrator authorization." = "Maintient le Mac actif lorsque le couvercle est fermé pendant que Caffeine Revanced est en cours d'exécution. Nécessite une autorisation administrateur unique.";

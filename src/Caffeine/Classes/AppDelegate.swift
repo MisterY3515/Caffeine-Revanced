@@ -28,10 +28,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     }
 
     func applicationWillTerminate(_: Notification) {
-        self.menuBarController?.cleanup()
-        // Synchronously restore system sleep in case lid-close prevention was active.
-        // This blocks until pmset completes (or the user cancels the password dialog).
+        // Restore pmset synchronously before the process exits so it can't be skipped.
         SleepPreventionManager.shared.cleanupSynchronously()
+        self.menuBarController?.cleanup()
     }
 
     // MARK: SPUStandardUserDriverDelegate

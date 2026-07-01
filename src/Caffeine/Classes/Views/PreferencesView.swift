@@ -55,9 +55,11 @@ struct PreferencesView: View {
                 .frame(width: 80, height: 80)
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Caffeine Revanced is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep.")
-                    .font(.system(size: 13))
-                    .fixedSize(horizontal: false, vertical: true)
+                Text(
+                    "Caffeine Revanced is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep."
+                )
+                .font(.system(size: 13))
+                .fixedSize(horizontal: false, vertical: true)
 
                 Text("Right-click (or ⌃-click) the menu bar icon to show the Caffeine Revanced menu.")
                     .font(.system(size: 13, weight: .bold))
@@ -129,10 +131,13 @@ private struct GeneralSection: View {
             Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
                 .font(.system(size: 13))
 
-            Toggle("Show this message when starting Caffeine Revanced", isOn: Binding(
-                get: { !self.suppressLaunchMessage },
-                set: { self.suppressLaunchMessage = !$0 }
-            ))
+            Toggle(
+                "Show this message when starting Caffeine Revanced",
+                isOn: Binding(
+                    get: { !self.suppressLaunchMessage },
+                    set: { self.suppressLaunchMessage = !$0 }
+                )
+            )
             .font(.system(size: 13))
 
             Toggle("Launch at Login", isOn: self.$launchAtLogin)
@@ -149,13 +154,16 @@ private struct GeneralSection: View {
 
             Divider().padding(.vertical, 6)
 
-            Toggle("Keep apps active", isOn: Binding(
-                get: { self.keepAppsActive },
-                set: { newValue in
-                    self.keepAppsActive = newValue
-                    self.viewModel.updateActivitySimulation(enabled: newValue)
-                }
-            ))
+            Toggle(
+                "Keep apps active",
+                isOn: Binding(
+                    get: { self.keepAppsActive },
+                    set: { newValue in
+                        self.keepAppsActive = newValue
+                        self.viewModel.updateActivitySimulation(enabled: newValue)
+                    }
+                )
+            )
             .font(.system(size: 13))
 
             descriptionText("Prevents apps from becoming inactive and the screen saver from starting.")
@@ -169,15 +177,18 @@ private struct GeneralSection: View {
 
             Divider().padding(.vertical, 6)
 
-            Toggle("Notify when timer expires", isOn: Binding(
-                get: { self.notifyOnExpiry },
-                set: { newValue in
-                    self.notifyOnExpiry = newValue
-                    if newValue {
-                        self.viewModel.requestNotificationAuthorization()
+            Toggle(
+                "Notify when timer expires",
+                isOn: Binding(
+                    get: { self.notifyOnExpiry },
+                    set: { newValue in
+                        self.notifyOnExpiry = newValue
+                        if newValue {
+                            self.viewModel.requestNotificationAuthorization()
+                        }
                     }
-                }
-            ))
+                )
+            )
             .font(.system(size: 13))
 
             descriptionText("Shows a system notification when the activation period ends.")
@@ -194,18 +205,49 @@ private struct SleepSection: View {
     @AppStorage(PreferenceKeys.batteryThresholdEnabled) private var batteryThresholdEnabled = false
     @AppStorage(PreferenceKeys.batteryThreshold) private var batteryThreshold = 20
 
+    @State private var showSudoersAlert = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Toggle("Prevent sleep when lid is closed", isOn: Binding(
-                get: { self.preventSleepOnLidClose },
-                set: { newValue in
-                    self.preventSleepOnLidClose = newValue
-                    self.viewModel.updateLidCloseSleepPrevention(enabled: newValue)
-                }
-            ))
+            Toggle(
+                "Prevent sleep when lid is closed",
+                isOn: Binding(
+                    get: { self.preventSleepOnLidClose },
+                    set: { newValue in
+                        if newValue {
+                            self.preventSleepOnLidClose = true
+                            self.showSudoersAlert = true
+                        } else {
+                            self.preventSleepOnLidClose = false
+                            self.viewModel.updateLidCloseSleepPrevention(enabled: false) { success in
+                                if !success { self.preventSleepOnLidClose = true }
+                            }
+                        }
+                    }
+                )
+            )
             .font(.system(size: 13))
+            .alert(
+                String(localized: "Administrator Access Required"),
+                isPresented: self.$showSudoersAlert
+            ) {
+                Button(String(localized: "Continue")) {
+                    self.viewModel.updateLidCloseSleepPrevention(enabled: true) { success in
+                        if !success { self.preventSleepOnLidClose = false }
+                    }
+                }
+                Button(String(localized: "Cancel"), role: .cancel) {
+                    self.preventSleepOnLidClose = false
+                }
+            } message: {
+                Text(
+                    "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically."
+                )
+            }
 
-            descriptionText("Keeps the Mac awake when the lid is closed while Caffeine Revanced is running.")
+            descriptionText(
+                "Keeps the Mac awake when the lid is closed while Caffeine Revanced is running. Requires one-time administrator authorization."
+            )
 
             Divider().padding(.vertical, 6)
 
@@ -216,10 +258,11 @@ private struct SleepSection: View {
                 HStack(spacing: 10) {
                     Text("Threshold:")
                         .font(.system(size: 12))
-                    Slider(value: Binding(
-                        get: { Double(self.batteryThreshold) },
-                        set: { self.batteryThreshold = Int($0) }
-                    ), in: 5 ... 50, step: 5)
+                    Slider(
+                        value: Binding(
+                            get: { Double(self.batteryThreshold) },
+                            set: { self.batteryThreshold = Int($0) }
+                        ), in: 5...50, step: 5)
                     Text("\(self.batteryThreshold)%")
                         .font(.system(size: 12, weight: .medium))
                         .frame(width: 36, alignment: .trailing)
@@ -227,7 +270,9 @@ private struct SleepSection: View {
                 .padding(.leading, 20)
             }
 
-            descriptionText("Automatically deactivates when on battery power and the battery level drops below the threshold.")
+            descriptionText(
+                "Automatically deactivates when on battery power and the battery level drops below the threshold."
+            )
         }
     }
 }
@@ -240,16 +285,21 @@ private struct ShortcutSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Toggle("Enable global keyboard shortcut (⌘⌥C)", isOn: Binding(
-                get: { self.globalHotkeyEnabled },
-                set: { newValue in
-                    self.globalHotkeyEnabled = newValue
-                    self.viewModel.updateGlobalHotkey(enabled: newValue)
-                }
-            ))
+            Toggle(
+                "Enable global keyboard shortcut (⌘⌥C)",
+                isOn: Binding(
+                    get: { self.globalHotkeyEnabled },
+                    set: { newValue in
+                        self.globalHotkeyEnabled = newValue
+                        self.viewModel.updateGlobalHotkey(enabled: newValue)
+                    }
+                )
+            )
             .font(.system(size: 13))
 
-            descriptionText("Toggles Caffeine Revanced on and off from anywhere in the system. Requires Accessibility permission (System Settings → Privacy & Security → Accessibility).")
+            descriptionText(
+                "Toggles Caffeine Revanced on and off from anywhere in the system. Requires Accessibility permission (System Settings → Privacy & Security → Accessibility)."
+            )
         }
     }
 }
@@ -269,41 +319,51 @@ private struct AutoActivateSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Toggle("Activate when Claude Code is running", isOn: Binding(
-                get: { self.claudeCodeActivation },
-                set: { newValue in
-                    self.claudeCodeActivation = newValue
-                    self.viewModel.updateClaudeCodeActivation(enabled: newValue)
-                }
-            ))
+            Toggle(
+                "Activate when Claude Code is running",
+                isOn: Binding(
+                    get: { self.claudeCodeActivation },
+                    set: { newValue in
+                        self.claudeCodeActivation = newValue
+                        self.viewModel.updateClaudeCodeActivation(enabled: newValue)
+                    }
+                )
+            )
             .font(.system(size: 13))
 
             descriptionText("Automatically activates while the Claude Code CLI is running.")
 
             Divider().padding(.vertical, 6)
 
-            Toggle("Activate when these apps are in the foreground", isOn: Binding(
-                get: { self.appActivationEnabled },
-                set: { newValue in
-                    self.appActivationEnabled = newValue
-                    self.viewModel.updateAppActivation(enabled: newValue)
-                }
-            ))
+            Toggle(
+                "Activate when these apps are in the foreground",
+                isOn: Binding(
+                    get: { self.appActivationEnabled },
+                    set: { newValue in
+                        self.appActivationEnabled = newValue
+                        self.viewModel.updateAppActivation(enabled: newValue)
+                    }
+                )
+            )
             .font(.system(size: 13))
 
-            descriptionText("Automatically activates when any of these apps is the frontmost application.")
+            descriptionText(
+                "Automatically activates when any of these apps is the frontmost application.")
 
             appList
 
             Divider().padding(.vertical, 6)
 
-            Toggle("Activate on these Wi-Fi networks", isOn: Binding(
-                get: { self.networkActivationEnabled },
-                set: { newValue in
-                    self.networkActivationEnabled = newValue
-                    self.viewModel.updateNetworkActivation(enabled: newValue)
-                }
-            ))
+            Toggle(
+                "Activate on these Wi-Fi networks",
+                isOn: Binding(
+                    get: { self.networkActivationEnabled },
+                    set: { newValue in
+                        self.networkActivationEnabled = newValue
+                        self.viewModel.updateNetworkActivation(enabled: newValue)
+                    }
+                )
+            )
             .font(.system(size: 13))
 
             descriptionText("Automatically activates when connected to any of these Wi-Fi networks.")
@@ -389,7 +449,7 @@ private struct AutoActivateSection: View {
             HStack(spacing: 6) {
                 Button(String(localized: "Add Current Network")) {
                     if let ssid = NetworkMonitor.shared.currentSSID, !ssid.isEmpty,
-                       !self.watchedNetworks.contains(ssid)
+                        !self.watchedNetworks.contains(ssid)
                     {
                         self.watchedNetworks.append(ssid)
                         self.viewModel.saveWatchedNetworks(self.watchedNetworks)
@@ -430,7 +490,8 @@ private struct AutoActivateSection: View {
 
         let bundle = Bundle(url: url)
         let bundleID = bundle?.bundleIdentifier ?? url.deletingPathExtension().lastPathComponent
-        let name = bundle?.object(forInfoDictionaryKey: "CFBundleName") as? String
+        let name =
+            bundle?.object(forInfoDictionaryKey: "CFBundleName") as? String
             ?? url.deletingPathExtension().lastPathComponent
 
         guard !self.watchedApps.contains(where: { $0.bundleID == bundleID }) else { return }
