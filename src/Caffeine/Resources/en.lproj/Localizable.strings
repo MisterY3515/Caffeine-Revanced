@@ -76,6 +76,14 @@
 "Shortcut" = "Shortcut";
 "Auto-Activate" = "Auto-Activate";
 
+/* Dim backlight on lid close */
+"Dim backlight when lid is closed" = "Dim backlight when lid is closed";
+"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened.";
+
+/* AC power activation */
+"Activate when connected to power" = "Activate when connected to power";
+"Automatically activates when the Mac is connected to AC power, and deactivates when it switches to battery." = "Automatically activates when the Mac is connected to AC power, and deactivates when it switches to battery.";
+
 /* Lid-close sudoers alert */
 "Administrator Access Required" = "Administrator Access Required";
 "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically.";

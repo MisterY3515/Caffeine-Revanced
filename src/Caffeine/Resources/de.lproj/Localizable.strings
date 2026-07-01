@@ -76,6 +76,14 @@
 "Shortcut" = "Kürzel";
 "Auto-Activate" = "Auto-Aktivierung";
 
+/* Dim backlight on lid close */
+"Dim backlight when lid is closed" = "Hintergrundbeleuchtung bei geschlossenem Deckel dimmen";
+"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Dimmt Display- und Tastaturhintergrundbeleuchtung auf null, wenn der Deckel geschlossen ist, und stellt sie beim Öffnen wieder her.";
+
+/* AC power activation */
+"Activate when connected to power" = "Aktivieren wenn mit Strom verbunden";
+"Automatically activates when the Mac is connected to AC power, and deactivates when it switches to battery." = "Aktiviert sich automatisch, wenn der Mac an eine Stromversorgung angeschlossen wird, und deaktiviert sich beim Umschalten auf Akku.";
+
 /* Lid-close sudoers alert */
 "Administrator Access Required" = "Administratorzugriff erforderlich";
 "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "Durch Aktivieren dieser Option wird eine Systemdatei erstellt, die es Caffeine Revanced ermöglicht, den Ruhezustand beim Schließen des Deckels zu verhindern, ohne jedes Mal nach dem Passwort zu fragen. Beim Deaktivieren wird die Datei automatisch entfernt.";

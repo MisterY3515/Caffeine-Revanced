@@ -76,6 +76,14 @@
 "Shortcut" = "快捷键";
 "Auto-Activate" = "自动激活";
 
+/* Dim backlight on lid close */
+"Dim backlight when lid is closed" = "合盖时调暗背光";
+"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "合盖时将显示屏和键盘背光调至零，开盖时恢复原来的亮度。";
+
+/* AC power activation */
+"Activate when connected to power" = "连接电源时激活";
+"Automatically activates when the Mac is connected to AC power, and deactivates when it switches to battery." = "当 Mac 连接到交流电源时自动激活，切换到电池供电时自动停用。";
+
 /* Lid-close sudoers alert */
 "Administrator Access Required" = "需要管理员权限";
 "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "启用此选项将创建一个系统文件，使 Caffeine Revanced 能够在合上盖子时防止睡眠，而无需每次都输入密码。禁用将自动删除该文件。";

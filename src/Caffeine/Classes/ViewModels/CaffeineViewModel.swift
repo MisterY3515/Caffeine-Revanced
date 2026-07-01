@@ -45,6 +45,8 @@ class CaffeineViewModel: ObservableObject {
 
         SleepPreventionManager.shared.preventLidCloseSleep =
             UserDefaults.standard.bool(forKey: PreferenceKeys.preventSleepOnLidClose)
+        SleepPreventionManager.shared.dimOnLidClose =
+            UserDefaults.standard.bool(forKey: PreferenceKeys.dimOnLidClose)
 
         if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
             self.activate(promptForAuth: false)
@@ -250,6 +252,21 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    func updateDimOnLidClose(enabled: Bool) {
+        SleepPreventionManager.shared.dimOnLidClose = enabled
+    }
+
+    func updatePowerActivation(enabled: Bool) {
+        if !enabled {
+            self.autoDeactivate(source: "power")
+        } else {
+            let (_, isOnBattery) = BatteryMonitor.currentState()
+            if !isOnBattery {
+                self.autoActivate(source: "power")
+            }
+        }
+    }
+
     func requestNotificationAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
             granted, error in
@@ -368,16 +385,34 @@ class CaffeineViewModel: ObservableObject {
     private func setupMonitors() {
         BatteryMonitor.shared.onStateChanged = { [weak self] level, isOnBattery in
             guard let self else { return }
-            guard UserDefaults.standard.bool(forKey: PreferenceKeys.batteryThresholdEnabled) else {
-                return
+
+            if UserDefaults.standard.bool(forKey: PreferenceKeys.batteryThresholdEnabled) {
+                let threshold = max(
+                    1,
+                    UserDefaults.standard.integer(forKey: PreferenceKeys.batteryThreshold)
+                )
+                if isOnBattery, level < threshold, self.isActive {
+                    DZLog("Battery below threshold (\(level)% < \(threshold)%), deactivating")
+                    self.deactivate()
+                }
             }
-            let threshold = max(1, UserDefaults.standard.integer(forKey: PreferenceKeys.batteryThreshold))
-            if isOnBattery, level < threshold, self.isActive {
-                DZLog("Battery below threshold (\(level)% < \(threshold)%), deactivating")
-                self.deactivate()
+
+            if UserDefaults.standard.bool(forKey: PreferenceKeys.powerActivationEnabled) {
+                if !isOnBattery {
+                    self.autoActivate(source: "power")
+                } else {
+                    self.autoDeactivate(source: "power")
+                }
             }
         }
         BatteryMonitor.shared.start()
+
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.powerActivationEnabled) {
+            let (_, isOnBattery) = BatteryMonitor.currentState()
+            if !isOnBattery {
+                self.autoActivate(source: "power")
+            }
+        }
 
         ProcessMonitor.shared.onProcessAppeared = { [weak self] name in
             Task { @MainActor in self?.autoActivate(source: name) }
@@ -467,6 +502,8 @@ enum PreferenceKeys {
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
     static let preventSleepOnLidClose = "CAPreventSleepOnLidClose"
+    static let dimOnLidClose = "CADimOnLidClose"
+    static let powerActivationEnabled = "CAPowerActivationEnabled"
 
     static let showTimeInMenuBar = "CAShowTimeInMenuBar"
     static let notifyOnExpiry = "CANotifyOnExpiry"

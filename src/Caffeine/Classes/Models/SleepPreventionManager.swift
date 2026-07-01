@@ -23,8 +23,15 @@ import IOKit.pwr_mgt
 final class SleepPreventionManager {
     static let shared = SleepPreventionManager()
 
-    var preventLidCloseSleep = false
+    var preventLidCloseSleep = false {
+        didSet { self.syncLidMonitoring() }
+    }
 
+    var dimOnLidClose = false {
+        didSet { self.syncLidMonitoring() }
+    }
+
+    private var savedBacklightState: BacklightController.State?
     private var displayAssertionID: IOPMAssertionID = 0
     private var systemAssertionID: IOPMAssertionID = 0
     private var isCurrentlyPreventing = false
@@ -254,6 +261,33 @@ final class SleepPreventionManager {
         let ok = process.terminationStatus == 0
         DZLog("pmset disablesleep \(value) via sudoers install: status=\(process.terminationStatus)")
         return ok
+    }
+
+    private func syncLidMonitoring() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if self.preventLidCloseSleep, self.dimOnLidClose {
+                LidStateMonitor.shared.onLidClosed = { [weak self] in self?.handleLidClosed() }
+                LidStateMonitor.shared.onLidOpened = { [weak self] in self?.handleLidOpened() }
+                LidStateMonitor.shared.start()
+            } else {
+                LidStateMonitor.shared.stop()
+                LidStateMonitor.shared.onLidClosed = nil
+                LidStateMonitor.shared.onLidOpened = nil
+            }
+        }
+    }
+
+    private func handleLidClosed() {
+        self.savedBacklightState = BacklightController.captureState()
+        BacklightController.dimAll()
+    }
+
+    private func handleLidOpened() {
+        if let state = self.savedBacklightState {
+            BacklightController.restore(state)
+            self.savedBacklightState = nil
+        }
     }
 
     private func setupWorkspaceNotifications() {

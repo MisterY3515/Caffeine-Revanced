@@ -202,6 +202,7 @@ private struct SleepSection: View {
     @ObservedObject var viewModel: CaffeineViewModel
 
     @AppStorage(PreferenceKeys.preventSleepOnLidClose) private var preventSleepOnLidClose = false
+    @AppStorage(PreferenceKeys.dimOnLidClose) private var dimOnLidClose = false
     @AppStorage(PreferenceKeys.batteryThresholdEnabled) private var batteryThresholdEnabled = false
     @AppStorage(PreferenceKeys.batteryThreshold) private var batteryThreshold = 20
 
@@ -247,6 +248,25 @@ private struct SleepSection: View {
 
             descriptionText(
                 "Keeps the Mac awake when the lid is closed while Caffeine Revanced is running. Requires one-time administrator authorization."
+            )
+
+            Toggle(
+                "Dim backlight when lid is closed",
+                isOn: Binding(
+                    get: { self.dimOnLidClose },
+                    set: { newValue in
+                        self.dimOnLidClose = newValue
+                        self.viewModel.updateDimOnLidClose(enabled: newValue)
+                    }
+                )
+            )
+            .font(.system(size: 13))
+            .disabled(!self.preventSleepOnLidClose)
+            .padding(.leading, 20)
+            .padding(.top, 4)
+
+            descriptionText(
+                "Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened."
             )
 
             Divider().padding(.vertical, 6)
@@ -309,6 +329,7 @@ private struct ShortcutSection: View {
 private struct AutoActivateSection: View {
     @ObservedObject var viewModel: CaffeineViewModel
 
+    @AppStorage(PreferenceKeys.powerActivationEnabled) private var powerActivationEnabled = false
     @AppStorage(PreferenceKeys.claudeCodeActivation) private var claudeCodeActivation = false
     @AppStorage(PreferenceKeys.appActivationEnabled) private var appActivationEnabled = false
     @AppStorage(PreferenceKeys.networkActivationEnabled) private var networkActivationEnabled = false
@@ -319,6 +340,24 @@ private struct AutoActivateSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            Toggle(
+                "Activate when connected to power",
+                isOn: Binding(
+                    get: { self.powerActivationEnabled },
+                    set: { newValue in
+                        self.powerActivationEnabled = newValue
+                        self.viewModel.updatePowerActivation(enabled: newValue)
+                    }
+                )
+            )
+            .font(.system(size: 13))
+
+            descriptionText(
+                "Automatically activates when the Mac is connected to AC power, and deactivates when it switches to battery."
+            )
+
+            Divider().padding(.vertical, 6)
+
             Toggle(
                 "Activate when Claude Code is running",
                 isOn: Binding(
