@@ -76,9 +76,13 @@
 "Shortcut" = "Sneltoets";
 "Auto-Activate" = "Auto-activeren";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "Achtergrondverlichting dimmen als de klep gesloten is";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Dimt de scherm- en toetsenbordachtergrondverlichting naar nul als de klep gesloten is en herstelt deze bij het openen.";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "Schermhelderheid op nul zetten als de klep gesloten is";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "Zet de schermhelderheid op nul als de klep gesloten is en herstelt deze bij het openen.";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "Toetsenbordachtergrondverlichting dimmen als de klep gesloten is";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "Dimt de toetsenbordachtergrondverlichting naar nul als de klep gesloten is en herstelt deze bij het openen.";
 
 /* AC power activation */
 "Activate when connected to power" = "Activeren wanneer verbonden met stroom";

@@ -76,9 +76,13 @@
 "Shortcut" = "Atajo";
 "Auto-Activate" = "Auto-activar";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "Atenuar retroiluminación al cerrar la tapa";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Reduce a cero el brillo de la pantalla y el teclado al cerrar la tapa, restaurándolos al abrirla.";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "Oscurecer pantalla al cerrar la tapa";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "Establece el brillo de la pantalla a cero al cerrar la tapa, restaurándolo al abrirla.";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "Atenuar retroiluminación del teclado al cerrar la tapa";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "Reduce a cero la retroiluminación del teclado al cerrar la tapa, restaurándola al abrirla.";
 
 /* AC power activation */
 "Activate when connected to power" = "Activar cuando esté conectado a la corriente";

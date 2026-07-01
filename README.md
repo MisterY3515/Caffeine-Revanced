@@ -1,46 +1,60 @@
-<img src="https://github.caffeine-app.net/assets/icon.png" alt="Icon" width="239"/>
+<img src="https://github.caffeine-app.net/assets/icon.png" alt="Icon" width="120"/>
 
 # Caffeine Revanced
-### Don't let your Mac fall asleep.
 
-Caffeine Revanced is a tiny program based on Caffeine, with just some others tweaks.
+**Don't let your Mac fall asleep.**
 
-### Installation
+Caffeine Revanced is a lightweight macOS menu bar app that prevents your Mac from automatically going to sleep, dimming the screen, or starting the screen saver. It's based on the original Caffeine with expanded features for power users.
 
-Download Caffeine at https://caffeine-app.net and drag it into your Applications folder, then double-click the icon to launch it.
+Requires **macOS 13.5** or later.
+
+---
 
 ### Usage
 
-Caffeine puts a coffee cup icon in the right side of your menu bar. Click the cup to toggle whether Caffeine is active or not -- a full cup means Caffeine will prevent your Mac from automatically going to sleep, dimming the screen or starting screen savers. An empty cup means your Mac will sleep normally.
+Click the coffee cup icon in the menu bar to toggle Caffeine on or off. A full cup means sleep prevention is active; an empty cup means your Mac sleeps normally.
 
-<img src="https://github.caffeine-app.net/assets/menubar.png" alt="Menubar" width="277"/>
+Right-click (or ⌃-click) the icon to access the menu, where you can activate Caffeine for a specific duration or open Preferences.
 
-For more control, right-click (or ⌘-click) the icon to show the menu. From here, you can access the preferences window or set a timeout if you only need Caffeine to prevent sleep for a little while.
+---
 
-<img src="https://github.caffeine-app.net/assets/menu.png" alt="Menu" width="293"/>
+### Features
 
-Caffeine is intended to be simple, yet powerful. Options you can configure include whether to start Caffeine automatically every time you start up your Mac, whether Caffeine should activate every time it starts, and a default duration if you always want Caffeine to turn itself off after a set time.
+**General**
+- Configurable default activation duration (or indefinitely)
+- Activate automatically at launch or at login
+- Deactivate when the device is manually put to sleep
+- Show countdown timer in the menu bar
+- System notification when the activation period ends
+- Simulate app activity to prevent apps from going idle
 
-<img src="https://github.caffeine-app.net/assets/preferences.png" alt="Preferences" width="645"/>
+**Sleep**
+- Prevent sleep when the lid is closed (requires one-time administrator authorization via `/etc/sudoers.d/caffeine-revanced`)
+- Dim the screen to zero when the lid is closed, restoring brightness on lid open
+- Dim the keyboard backlight to zero when the lid is closed, restoring it on lid open
+- Deactivate automatically when battery drops below a configurable threshold
 
-### FAQ
+**Shortcut**
+- Global keyboard shortcut **⌘⌥C** to toggle from anywhere (requires Accessibility permission)
 
-##### Is this the same Caffeine that I've used before?
+**Auto-Activate**
+- Activate when connected to AC power; deactivate when switching to battery
+- Activate while the Claude Code CLI is running
+- Activate when specific apps are in the foreground
+- Activate when connected to specific Wi-Fi networks
 
-Yes! Tomas Franzén of Lighthead Software originally developed Caffeine in 2006, and it has been a well known and loved utility for Mac users for many years. Its simplicity has allowed it to continue working perfectly long after active development had ceased.
+---
 
-In 2018, Michael Jones (IntelliScape Computer Solutions) reached out to Tomas to inquire if they could continue development of Caffeine.
+### Building
 
-Tomas has graciously provided the source code under an open source license, allowing IntelliScape Computer Solutions to continue developing Caffeine where he left off.
+Open `src/Caffeine.xcodeproj` in Xcode 16 or later and build the `Caffeine` scheme.
 
-##### Does this work with macOS 10.x?
+---
 
-No, this version requires at least macOS 11 (Big Sur). Caffeine for macOS Yosemite or later (including Catalina) is available at: https://www.intelliscapesolutions.com/apps/caffeine/
+### Credits
 
-##### How is Caffeine different or better than alternatives (such as Amphetamine, KeepingYouAwake, etc)?
+© 2006 Tomas Franzén  
+© 2018 Michael Jones (IntelliScape Computer Solutions)  
+© 2022 Dominic Rodemer  
 
-Due to the long period of inactivity for Caffeine, a lot of different and great options have been developed. While the alternatives are great apps and definitely worth your consideration, we believe that Caffeine's power lies in its simplicity and ease of use.
-
-### Support
-
-If you have questions, comments or other feedback get in touch at https://caffeine-app.net/support.
+Source code: https://github.caffeine-app.net

@@ -76,9 +76,13 @@
 "Shortcut" = "Сочетание";
 "Auto-Activate" = "Авто-активация";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "Затемнять подсветку при закрытой крышке";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Снижает яркость дисплея и подсветку клавиатуры до нуля при закрытии крышки, восстанавливая их при открытии.";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "Затемнять экран при закрытой крышке";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "Устанавливает яркость экрана на ноль при закрытии крышки, восстанавливая её при открытии.";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "Затемнять подсветку клавиатуры при закрытой крышке";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "Снижает подсветку клавиатуры до нуля при закрытии крышки, восстанавливая её при открытии.";
 
 /* AC power activation */
 "Activate when connected to power" = "Активировать при подключении к сети";

@@ -203,6 +203,7 @@ private struct SleepSection: View {
 
     @AppStorage(PreferenceKeys.preventSleepOnLidClose) private var preventSleepOnLidClose = false
     @AppStorage(PreferenceKeys.dimOnLidClose) private var dimOnLidClose = false
+    @AppStorage(PreferenceKeys.dimScreenOnLidClose) private var dimScreenOnLidClose = false
     @AppStorage(PreferenceKeys.batteryThresholdEnabled) private var batteryThresholdEnabled = false
     @AppStorage(PreferenceKeys.batteryThreshold) private var batteryThreshold = 20
 
@@ -251,7 +252,26 @@ private struct SleepSection: View {
             )
 
             Toggle(
-                "Dim backlight when lid is closed",
+                "Dim screen when lid is closed",
+                isOn: Binding(
+                    get: { self.dimScreenOnLidClose },
+                    set: { newValue in
+                        self.dimScreenOnLidClose = newValue
+                        self.viewModel.updateDimScreenOnLidClose(enabled: newValue)
+                    }
+                )
+            )
+            .font(.system(size: 13))
+            .disabled(!self.preventSleepOnLidClose)
+            .padding(.leading, 20)
+            .padding(.top, 4)
+
+            descriptionText(
+                "Sets the screen brightness to zero when the lid is closed, restoring it when reopened."
+            )
+
+            Toggle(
+                "Dim keyboard backlight when lid is closed",
                 isOn: Binding(
                     get: { self.dimOnLidClose },
                     set: { newValue in
@@ -263,10 +283,9 @@ private struct SleepSection: View {
             .font(.system(size: 13))
             .disabled(!self.preventSleepOnLidClose)
             .padding(.leading, 20)
-            .padding(.top, 4)
 
             descriptionText(
-                "Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened."
+                "Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened."
             )
 
             Divider().padding(.vertical, 6)

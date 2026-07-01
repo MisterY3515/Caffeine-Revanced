@@ -19,7 +19,7 @@ enum BacklightController {
         let keyboard: Double
     }
 
-    // MARK: - Capture / Dim / Restore
+    // MARK: - Capture
 
     static func captureState() -> State {
         State(
@@ -28,18 +28,30 @@ enum BacklightController {
         )
     }
 
-    static func dimAll() {
+    // MARK: - Dim
+
+    static func dimDisplays() {
         Self.setAllDisplayBrightness(0)
-        Self.setKeyboardBrightness(0)
-        DZLog("BacklightController: dimmed displays and keyboard")
+        DZLog("BacklightController: dimmed displays")
     }
 
-    static func restore(_ state: State) {
-        for (id, brightness) in state.displays {
+    static func dimKeyboard() {
+        Self.setKeyboardBrightness(0)
+        DZLog("BacklightController: dimmed keyboard")
+    }
+
+    // MARK: - Restore
+
+    static func restoreDisplays(_ displays: [(CGDirectDisplayID, Double)]) {
+        for (id, brightness) in displays {
             Self.setDisplayBrightness(brightness, for: id)
         }
-        Self.setKeyboardBrightness(state.keyboard)
-        DZLog("BacklightController: restored displays and keyboard")
+        DZLog("BacklightController: restored displays")
+    }
+
+    static func restoreKeyboard(_ brightness: Double) {
+        Self.setKeyboardBrightness(brightness)
+        DZLog("BacklightController: restored keyboard")
     }
 
     // MARK: - Display via CoreDisplay private API

@@ -47,6 +47,8 @@ class CaffeineViewModel: ObservableObject {
             UserDefaults.standard.bool(forKey: PreferenceKeys.preventSleepOnLidClose)
         SleepPreventionManager.shared.dimOnLidClose =
             UserDefaults.standard.bool(forKey: PreferenceKeys.dimOnLidClose)
+        SleepPreventionManager.shared.dimScreenOnLidClose =
+            UserDefaults.standard.bool(forKey: PreferenceKeys.dimScreenOnLidClose)
 
         if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
             self.activate(promptForAuth: false)
@@ -254,6 +256,10 @@ class CaffeineViewModel: ObservableObject {
 
     func updateDimOnLidClose(enabled: Bool) {
         SleepPreventionManager.shared.dimOnLidClose = enabled
+    }
+
+    func updateDimScreenOnLidClose(enabled: Bool) {
+        SleepPreventionManager.shared.dimScreenOnLidClose = enabled
     }
 
     func updatePowerActivation(enabled: Bool) {
@@ -503,6 +509,7 @@ enum PreferenceKeys {
     static let keepAppsActive = "CAKeepAppsActive"
     static let preventSleepOnLidClose = "CAPreventSleepOnLidClose"
     static let dimOnLidClose = "CADimOnLidClose"
+    static let dimScreenOnLidClose = "CADimScreenOnLidClose"
     static let powerActivationEnabled = "CAPowerActivationEnabled"
 
     static let showTimeInMenuBar = "CAShowTimeInMenuBar"

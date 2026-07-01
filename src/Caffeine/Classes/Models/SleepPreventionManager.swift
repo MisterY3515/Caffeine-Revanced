@@ -31,6 +31,10 @@ final class SleepPreventionManager {
         didSet { self.syncLidMonitoring() }
     }
 
+    var dimScreenOnLidClose = false {
+        didSet { self.syncLidMonitoring() }
+    }
+
     private var savedBacklightState: BacklightController.State?
     private var displayAssertionID: IOPMAssertionID = 0
     private var systemAssertionID: IOPMAssertionID = 0
@@ -266,7 +270,7 @@ final class SleepPreventionManager {
     private func syncLidMonitoring() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            if self.preventLidCloseSleep, self.dimOnLidClose {
+            if self.preventLidCloseSleep, self.dimOnLidClose || self.dimScreenOnLidClose {
                 LidStateMonitor.shared.onLidClosed = { [weak self] in self?.handleLidClosed() }
                 LidStateMonitor.shared.onLidOpened = { [weak self] in self?.handleLidOpened() }
                 LidStateMonitor.shared.start()
@@ -280,14 +284,15 @@ final class SleepPreventionManager {
 
     private func handleLidClosed() {
         self.savedBacklightState = BacklightController.captureState()
-        BacklightController.dimAll()
+        if self.dimScreenOnLidClose { BacklightController.dimDisplays() }
+        if self.dimOnLidClose { BacklightController.dimKeyboard() }
     }
 
     private func handleLidOpened() {
-        if let state = self.savedBacklightState {
-            BacklightController.restore(state)
-            self.savedBacklightState = nil
-        }
+        guard let state = self.savedBacklightState else { return }
+        self.savedBacklightState = nil
+        if self.dimScreenOnLidClose { BacklightController.restoreDisplays(state.displays) }
+        if self.dimOnLidClose { BacklightController.restoreKeyboard(state.keyboard) }
     }
 
     private func setupWorkspaceNotifications() {

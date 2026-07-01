@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - "Prevent sleep when lid is closed" preference: keeps the Mac awake when the lid is closed while Caffeine Revanced is active.
-- "Dim backlight when lid is closed" preference (under lid-close sleep): automatically dims display and keyboard backlight to zero when the lid is closed, restoring them on lid open.
+- "Dim screen when lid is closed" preference: sets the screen brightness to zero when the lid is closed, restoring it on lid open.
+- "Dim keyboard backlight when lid is closed" preference: sets keyboard backlight to zero when the lid is closed, restoring it on lid open.
 - "Activate when connected to power" preference: automatically activates when the Mac is connected to AC power and deactivates when it switches to battery.
 - Launch at Login: automatically start Caffeine Revanced at login via SMAppService.
 - Show time remaining in menu bar: displays countdown timer next to the menu bar icon.

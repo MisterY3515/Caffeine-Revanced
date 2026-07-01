@@ -76,9 +76,13 @@
 "Shortcut" = "단축키";
 "Auto-Activate" = "자동 활성화";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "덮개를 닫을 때 백라이트 어둡게 하기";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "덮개를 닫으면 디스플레이와 키보드 백라이트를 0으로 줄이고, 열면 원래 상태로 복원합니다.";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "덮개를 닫을 때 화면 어둡게 하기";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "덮개를 닫으면 화면 밝기를 0으로 설정하고, 열면 원래 상태로 복원합니다.";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "덮개를 닫을 때 키보드 백라이트 어둡게 하기";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "덮개를 닫으면 키보드 백라이트를 0으로 줄이고, 열면 원래 상태로 복원합니다.";
 
 /* AC power activation */
 "Activate when connected to power" = "전원 연결 시 활성화";

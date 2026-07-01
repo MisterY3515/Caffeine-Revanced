@@ -76,9 +76,13 @@
 "Shortcut" = "Kürzel";
 "Auto-Activate" = "Auto-Aktivierung";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "Hintergrundbeleuchtung bei geschlossenem Deckel dimmen";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Dimmt Display- und Tastaturhintergrundbeleuchtung auf null, wenn der Deckel geschlossen ist, und stellt sie beim Öffnen wieder her.";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "Bildschirm bei geschlossenem Deckel ausblenden";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "Setzt die Bildschirmhelligkeit auf null, wenn der Deckel geschlossen ist, und stellt sie beim Öffnen wieder her.";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "Tastaturhintergrundbeleuchtung bei geschlossenem Deckel dimmen";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "Dimmt die Tastaturhintergrundbeleuchtung auf null, wenn der Deckel geschlossen ist, und stellt sie beim Öffnen wieder her.";
 
 /* AC power activation */
 "Activate when connected to power" = "Aktivieren wenn mit Strom verbunden";

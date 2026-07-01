@@ -76,9 +76,13 @@
 "Shortcut" = "Скорочення";
 "Auto-Activate" = "Авто-активація";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "Зменшити підсвічування при закритій кришці";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "Зменшує яскравість дисплея та підсвічування клавіатури до нуля при закритті кришки, відновлюючи їх при відкритті.";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "Зменшити яскравість екрана при закритій кришці";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "Встановлює яскравість екрана на нуль при закритті кришки, відновлюючи її при відкритті.";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "Зменшити підсвічування клавіатури при закритій кришці";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "Зменшує підсвічування клавіатури до нуля при закритті кришки, відновлюючи його при відкритті.";
 
 /* AC power activation */
 "Activate when connected to power" = "Активувати при підключенні до мережі";

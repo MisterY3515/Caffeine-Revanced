@@ -76,9 +76,13 @@
 "Shortcut" = "快捷键";
 "Auto-Activate" = "自动激活";
 
-/* Dim backlight on lid close */
-"Dim backlight when lid is closed" = "合盖时调暗背光";
-"Dims the display and keyboard backlight to zero when the lid is closed, restoring them when reopened." = "合盖时将显示屏和键盘背光调至零，开盖时恢复原来的亮度。";
+/* Dim screen on lid close */
+"Dim screen when lid is closed" = "合盖时调暗屏幕";
+"Sets the screen brightness to zero when the lid is closed, restoring it when reopened." = "合盖时将屏幕亮度设为零，开盖时恢复原来的亮度。";
+
+/* Dim keyboard backlight on lid close */
+"Dim keyboard backlight when lid is closed" = "合盖时调暗键盘背光";
+"Dims the keyboard backlight to zero when the lid is closed, restoring it when reopened." = "合盖时将键盘背光调至零，开盖时恢复原来的亮度。";
 
 /* AC power activation */
 "Activate when connected to power" = "连接电源时激活";
