@@ -10,9 +10,11 @@ import IOKit.hidsystem
 
 /// Controls display brightness and keyboard backlight.
 ///
-/// Display brightness uses `CoreDisplay.framework` private API (reliable on macOS 13.5+).
-/// Keyboard backlight uses `IOHIDSystem` parameters. Both degrade gracefully — a failure
-/// in either path leaves the other path unaffected.
+/// Display brightness tries DisplayServices.framework first (reliable on Apple Silicon),
+/// then falls back to CoreDisplay.framework (Intel). Both paths use CGMainDisplayID()
+/// directly so they work even when the built-in panel is not in CGGetActiveDisplayList
+/// (i.e. while the lid is closed). Keyboard backlight uses IOHIDSystem parameters.
+/// All paths fail silently.
 enum BacklightController {
     struct State {
         let displays: [(CGDirectDisplayID, Double)]
@@ -31,7 +33,9 @@ enum BacklightController {
     // MARK: - Dim
 
     static func dimDisplays() {
-        Self.setAllDisplayBrightness(0)
+        for id in Self.allKnownDisplayIDs() {
+            Self.setDisplayBrightness(0, for: id)
+        }
         DZLog("BacklightController: dimmed displays")
     }
 
@@ -43,8 +47,12 @@ enum BacklightController {
     // MARK: - Restore
 
     static func restoreDisplays(_ displays: [(CGDirectDisplayID, Double)]) {
-        for (id, brightness) in displays {
-            Self.setDisplayBrightness(brightness, for: id)
+        if displays.isEmpty {
+            Self.setDisplayBrightness(0.5, for: CGMainDisplayID())
+        } else {
+            for (id, brightness) in displays {
+                Self.setDisplayBrightness(brightness, for: id)
+            }
         }
         DZLog("BacklightController: restored displays")
     }
@@ -54,50 +62,72 @@ enum BacklightController {
         DZLog("BacklightController: restored keyboard")
     }
 
-    // MARK: - Display via CoreDisplay private API
+    // MARK: - Display via DisplayServices (primary) + CoreDisplay (fallback)
 
-    private typealias GetBrightnessFn = @convention(c) (CGDirectDisplayID, UnsafeMutablePointer<Double>) -> Int32
-    private typealias SetBrightnessFn = @convention(c) (CGDirectDisplayID, Double) -> Int32
+    private typealias DSGetFn = @convention(c) (CGDirectDisplayID, UnsafeMutablePointer<Float>) -> Int32
+    private typealias DSSetFn = @convention(c) (CGDirectDisplayID, Float) -> Int32
+    private typealias CDGetFn = @convention(c) (CGDirectDisplayID, UnsafeMutablePointer<Double>) -> Int32
+    private typealias CDSetFn = @convention(c) (CGDirectDisplayID, Double) -> Int32
 
-    private static let coreDisplayHandle: UnsafeMutableRawPointer? =
-        dlopen(
-            "/System/Library/Frameworks/CoreDisplay.framework/CoreDisplay",
-            RTLD_NOW | RTLD_LOCAL
-        )
+    private static let displayServicesHandle: UnsafeMutableRawPointer? = dlopen(
+        "/System/Library/PrivateFrameworks/DisplayServices.framework/DisplayServices",
+        RTLD_NOW | RTLD_LOCAL
+    )
+    private static let coreDisplayHandle: UnsafeMutableRawPointer? = dlopen(
+        "/System/Library/Frameworks/CoreDisplay.framework/CoreDisplay",
+        RTLD_NOW | RTLD_LOCAL
+    )
 
-    private static func captureDisplayBrightnesses() -> [(CGDirectDisplayID, Double)] {
+    /// Returns the main display ID plus any other currently active displays.
+    /// Always includes CGMainDisplayID() so we can set brightness even when
+    /// the built-in panel is in hardware sleep (not in the active list).
+    private static func allKnownDisplayIDs() -> [CGDirectDisplayID] {
         var ids = [CGDirectDisplayID](repeating: 0, count: 8)
         var count: UInt32 = 0
         CGGetActiveDisplayList(8, &ids, &count)
-        return (0 ..< Int(count)).compactMap { i in
-            guard let b = Self.displayBrightness(for: ids[i]) else { return nil }
-            return (ids[i], b)
-        }
+        var result = Array(ids.prefix(Int(count)))
+        let main = CGMainDisplayID()
+        if !result.contains(main) { result.insert(main, at: 0) }
+        return result
     }
 
-    private static func setAllDisplayBrightness(_ value: Double) {
-        var ids = [CGDirectDisplayID](repeating: 0, count: 8)
-        var count: UInt32 = 0
-        CGGetActiveDisplayList(8, &ids, &count)
-        for i in 0 ..< Int(count) {
-            Self.setDisplayBrightness(value, for: ids[i])
+    private static func captureDisplayBrightnesses() -> [(CGDirectDisplayID, Double)] {
+        Self.allKnownDisplayIDs().compactMap { id in
+            guard let b = Self.displayBrightness(for: id) else { return nil }
+            return (id, b)
         }
     }
 
     private static func displayBrightness(for id: CGDirectDisplayID) -> Double? {
-        guard let handle = Self.coreDisplayHandle,
+        if let handle = Self.displayServicesHandle,
+            let sym = dlsym(handle, "DisplayServicesGetBrightness")
+        {
+            var v: Float = 0
+            if unsafeBitCast(sym, to: DSGetFn.self)(id, &v) == 0 { return Double(v) }
+        }
+        if let handle = Self.coreDisplayHandle,
             let sym = dlsym(handle, "CoreDisplay_Display_GetUserBrightness")
-        else { return nil }
-        var brightness = 0.0
-        guard unsafeBitCast(sym, to: GetBrightnessFn.self)(id, &brightness) == 0 else { return nil }
-        return brightness
+        {
+            var v = 0.0
+            if unsafeBitCast(sym, to: CDGetFn.self)(id, &v) == 0 { return v }
+        }
+        return nil
     }
 
     private static func setDisplayBrightness(_ value: Double, for id: CGDirectDisplayID) {
-        guard let handle = Self.coreDisplayHandle,
+        if let handle = Self.displayServicesHandle,
+            let sym = dlsym(handle, "DisplayServicesSetBrightness")
+        {
+            let result = unsafeBitCast(sym, to: DSSetFn.self)(id, Float(value))
+            DZLog("BacklightController: DS set \(id) brightness=\(value) result=\(result)")
+            if result == 0 { return }
+        }
+        if let handle = Self.coreDisplayHandle,
             let sym = dlsym(handle, "CoreDisplay_Display_SetUserBrightness")
-        else { return }
-        _ = unsafeBitCast(sym, to: SetBrightnessFn.self)(id, value)
+        {
+            let result = unsafeBitCast(sym, to: CDSetFn.self)(id, value)
+            DZLog("BacklightController: CD set \(id) brightness=\(value) result=\(result)")
+        }
     }
 
     // MARK: - Keyboard via IOHIDSystem

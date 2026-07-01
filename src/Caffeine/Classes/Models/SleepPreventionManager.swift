@@ -291,8 +291,13 @@ final class SleepPreventionManager {
     private func handleLidOpened() {
         guard let state = self.savedBacklightState else { return }
         self.savedBacklightState = nil
-        if self.dimScreenOnLidClose { BacklightController.restoreDisplays(state.displays) }
         if self.dimOnLidClose { BacklightController.restoreKeyboard(state.keyboard) }
+        if self.dimScreenOnLidClose {
+            // Delay slightly so the panel fully exits hardware sleep before we write brightness.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                BacklightController.restoreDisplays(state.displays)
+            }
+        }
     }
 
     private func setupWorkspaceNotifications() {
