@@ -97,3 +97,7 @@
 /* External display activation */
 "Activate when an external display is connected" = "Ativar quando um ecrã externo for ligado";
 "Automatically activates when an external display is connected, and deactivates when disconnected." = "Ativa automaticamente quando um ecrã externo é ligado e desativa quando é desligado.";
+
+/* Audio activation */
+"Activate when audio is playing" = "Ativar quando o áudio estiver a reproduzir";
+"Automatically activates while audio is playing through the default output device." = "Ativa automaticamente enquanto o áudio está a ser reproduzido através do dispositivo de saída predefinido.";

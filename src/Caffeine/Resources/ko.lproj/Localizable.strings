@@ -97,3 +97,7 @@
 /* External display activation */
 "Activate when an external display is connected" = "외부 디스플레이 연결 시 활성화";
 "Automatically activates when an external display is connected, and deactivates when disconnected." = "외부 디스플레이가 연결되면 자동으로 활성화되고 연결이 해제되면 비활성화됩니다.";
+
+/* Audio activation */
+"Activate when audio is playing" = "오디오 재생 시 활성화";
+"Automatically activates while audio is playing through the default output device." = "기본 출력 장치에서 오디오가 재생되는 동안 자동으로 활성화됩니다.";

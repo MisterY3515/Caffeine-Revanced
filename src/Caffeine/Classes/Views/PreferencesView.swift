@@ -351,6 +351,7 @@ private struct AutoActivateSection: View {
 
     @AppStorage(PreferenceKeys.powerActivationEnabled) private var powerActivationEnabled = false
     @AppStorage(PreferenceKeys.externalDisplayActivation) private var externalDisplayActivation = false
+    @AppStorage(PreferenceKeys.audioActivation) private var audioActivation = false
     @AppStorage(PreferenceKeys.claudeCodeActivation) private var claudeCodeActivation = false
     @AppStorage(PreferenceKeys.appActivationEnabled) private var appActivationEnabled = false
     @AppStorage(PreferenceKeys.networkActivationEnabled) private var networkActivationEnabled = false
@@ -393,6 +394,24 @@ private struct AutoActivateSection: View {
 
             descriptionText(
                 "Automatically activates when an external display is connected, and deactivates when disconnected."
+            )
+
+            Divider().padding(.vertical, 6)
+
+            Toggle(
+                "Activate when audio is playing",
+                isOn: Binding(
+                    get: { self.audioActivation },
+                    set: { newValue in
+                        self.audioActivation = newValue
+                        self.viewModel.updateAudioActivation(enabled: newValue)
+                    }
+                )
+            )
+            .font(.system(size: 13))
+
+            descriptionText(
+                "Automatically activates while audio is playing through the default output device."
             )
 
             Divider().padding(.vertical, 6)

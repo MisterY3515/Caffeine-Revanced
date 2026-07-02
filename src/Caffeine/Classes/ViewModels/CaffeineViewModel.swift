@@ -287,6 +287,18 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    func updateAudioActivation(enabled: Bool) {
+        if enabled {
+            AudioMonitor.shared.start()
+            if AudioMonitor.isAudioPlaying() {
+                self.autoActivate(source: "audio")
+            }
+        } else {
+            AudioMonitor.shared.stop()
+            self.autoDeactivate(source: "audio")
+        }
+    }
+
     func requestNotificationAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
             granted, error in
@@ -477,6 +489,20 @@ class CaffeineViewModel: ObservableObject {
                 self.autoActivate(source: "externalDisplay")
             }
         }
+
+        AudioMonitor.shared.onAudioStarted = { [weak self] in
+            Task { @MainActor in self?.autoActivate(source: "audio") }
+        }
+        AudioMonitor.shared.onAudioStopped = { [weak self] in
+            Task { @MainActor in self?.autoDeactivate(source: "audio") }
+        }
+
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.audioActivation) {
+            AudioMonitor.shared.start()
+            if AudioMonitor.isAudioPlaying() {
+                self.autoActivate(source: "audio")
+            }
+        }
     }
 
     private func handleSSIDChange(_ ssid: String?) {
@@ -550,4 +576,5 @@ enum PreferenceKeys {
     static let networkActivationEnabled = "CANetworkActivationEnabled"
     static let networkActivationSSIDs = "CANetworkActivationSSIDs"
     static let externalDisplayActivation = "CAExternalDisplayActivation"
+    static let audioActivation = "CAAudioActivation"
 }

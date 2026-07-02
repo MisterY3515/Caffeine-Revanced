@@ -97,3 +97,7 @@
 /* External display activation */
 "Activate when an external display is connected" = "连接外接显示器时激活";
 "Automatically activates when an external display is connected, and deactivates when disconnected." = "连接外接显示器时自动激活，断开连接时自动停用。";
+
+/* Audio activation */
+"Activate when audio is playing" = "播放音频时激活";
+"Automatically activates while audio is playing through the default output device." = "通过默认输出设备播放音频时自动激活。";
