@@ -105,3 +105,7 @@
 /* Inactivity deactivation */
 "Deactivate after inactivity" = "非アクティブ時に無効にする";
 "Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "指定した期間、キーボードやマウスの操作がない場合に自動的に無効になります。";
+
+/* CPU activation */
+"Activate on high CPU load" = "CPU負荷が高いときに有効にする";
+"Automatically activates when sustained CPU load rises above the threshold." = "持続的なCPU負荷がしきい値を超えると自動的に有効になります。";

@@ -105,3 +105,7 @@
 /* Inactivity deactivation */
 "Deactivate after inactivity" = "闲置后停用";
 "Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "在指定的闲置时间（无键盘或鼠标输入）后自动停用。";
+
+/* CPU activation */
+"Activate on high CPU load" = "CPU 负载过高时激活";
+"Automatically activates when sustained CPU load rises above the threshold." = "当持续 CPU 负载超过阈值时自动激活。";

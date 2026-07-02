@@ -308,6 +308,16 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    func updateCPUActivation(enabled: Bool, threshold: Int) {
+        CPUMonitor.shared.thresholdPercent = threshold > 0 ? threshold : 80
+        if enabled {
+            CPUMonitor.shared.start()
+        } else {
+            CPUMonitor.shared.stop()
+            self.autoDeactivate(source: "cpu")
+        }
+    }
+
     func requestNotificationAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
             granted, error in
@@ -524,6 +534,19 @@ class CaffeineViewModel: ObservableObject {
             InactivityMonitor.shared.thresholdMinutes = threshold > 0 ? threshold : 10
             InactivityMonitor.shared.start()
         }
+
+        CPUMonitor.shared.onHighLoad = { [weak self] in
+            Task { @MainActor in self?.autoActivate(source: "cpu") }
+        }
+        CPUMonitor.shared.onLoadNormalized = { [weak self] in
+            Task { @MainActor in self?.autoDeactivate(source: "cpu") }
+        }
+
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.cpuActivationEnabled) {
+            let threshold = UserDefaults.standard.integer(forKey: PreferenceKeys.cpuThreshold)
+            CPUMonitor.shared.thresholdPercent = threshold > 0 ? threshold : 80
+            CPUMonitor.shared.start()
+        }
     }
 
     private func handleSSIDChange(_ ssid: String?) {
@@ -600,4 +623,6 @@ enum PreferenceKeys {
     static let audioActivation = "CAAudioActivation"
     static let inactivityDeactivationEnabled = "CAInactivityDeactivationEnabled"
     static let inactivityThreshold = "CAInactivityThreshold"
+    static let cpuActivationEnabled = "CACPUActivationEnabled"
+    static let cpuThreshold = "CACPUThreshold"
 }

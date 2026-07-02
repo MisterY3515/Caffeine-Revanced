@@ -105,3 +105,7 @@
 /* Inactivity deactivation */
 "Deactivate after inactivity" = "비활동 후 비활성화";
 "Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "지정된 비활동 기간(키보드 또는 마우스 입력 없음) 후 자동으로 비활성화됩니다.";
+
+/* CPU activation */
+"Activate on high CPU load" = "높은 CPU 부하 시 활성화";
+"Automatically activates when sustained CPU load rises above the threshold." = "지속적인 CPU 부하가 임계값을 초과하면 자동으로 활성화됩니다.";

@@ -396,6 +396,8 @@ private struct AutoActivateSection: View {
     @AppStorage(PreferenceKeys.powerActivationEnabled) private var powerActivationEnabled = false
     @AppStorage(PreferenceKeys.externalDisplayActivation) private var externalDisplayActivation = false
     @AppStorage(PreferenceKeys.audioActivation) private var audioActivation = false
+    @AppStorage(PreferenceKeys.cpuActivationEnabled) private var cpuActivationEnabled = false
+    @AppStorage(PreferenceKeys.cpuThreshold) private var cpuThreshold = 80
     @AppStorage(PreferenceKeys.claudeCodeActivation) private var claudeCodeActivation = false
     @AppStorage(PreferenceKeys.appActivationEnabled) private var appActivationEnabled = false
     @AppStorage(PreferenceKeys.networkActivationEnabled) private var networkActivationEnabled = false
@@ -456,6 +458,44 @@ private struct AutoActivateSection: View {
 
             descriptionText(
                 "Automatically activates while audio is playing through the default output device."
+            )
+
+            Divider().padding(.vertical, 6)
+
+            Toggle(
+                "Activate on high CPU load",
+                isOn: Binding(
+                    get: { self.cpuActivationEnabled },
+                    set: { newValue in
+                        self.cpuActivationEnabled = newValue
+                        self.viewModel.updateCPUActivation(enabled: newValue, threshold: self.cpuThreshold)
+                    }
+                )
+            )
+            .font(.system(size: 13))
+
+            if self.cpuActivationEnabled {
+                HStack(spacing: 10) {
+                    Text("Threshold:")
+                        .font(.system(size: 12))
+                    Slider(
+                        value: Binding(
+                            get: { Double(self.cpuThreshold) },
+                            set: { newValue in
+                                self.cpuThreshold = Int(newValue)
+                                self.viewModel.updateCPUActivation(enabled: true, threshold: self.cpuThreshold)
+                            }
+                        ), in: 50...95, step: 5
+                    )
+                    Text("\(self.cpuThreshold)%")
+                        .font(.system(size: 12, weight: .medium))
+                        .frame(width: 36, alignment: .trailing)
+                }
+                .padding(.leading, 20)
+            }
+
+            descriptionText(
+                "Automatically activates when sustained CPU load rises above the threshold."
             )
 
             Divider().padding(.vertical, 6)

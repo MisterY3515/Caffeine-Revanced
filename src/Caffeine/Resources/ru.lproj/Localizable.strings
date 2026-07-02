@@ -105,3 +105,7 @@
 /* Inactivity deactivation */
 "Deactivate after inactivity" = "Деактивировать после бездействия";
 "Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "Автоматически деактивируется после указанного периода бездействия пользователя (отсутствие ввода с клавиатуры или мыши).";
+
+/* CPU activation */
+"Activate on high CPU load" = "Активировать при высокой загрузке ЦП";
+"Automatically activates when sustained CPU load rises above the threshold." = "Автоматически активируется при устойчивом превышении порога загрузки ЦП.";
