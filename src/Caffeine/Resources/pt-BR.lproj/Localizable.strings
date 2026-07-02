@@ -101,3 +101,7 @@
 /* Audio activation */
 "Activate when audio is playing" = "Ativar quando áudio estiver tocando";
 "Automatically activates while audio is playing through the default output device." = "Ativa automaticamente enquanto o áudio é reproduzido pelo dispositivo de saída padrão.";
+
+/* Inactivity deactivation */
+"Deactivate after inactivity" = "Desativar após inatividade";
+"Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "Desativa automaticamente após o período de inatividade especificado (sem entrada de teclado ou mouse).";

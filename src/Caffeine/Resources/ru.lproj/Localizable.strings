@@ -101,3 +101,7 @@
 /* Audio activation */
 "Activate when audio is playing" = "Активировать при воспроизведении звука";
 "Automatically activates while audio is playing through the default output device." = "Автоматически активируется, пока звук воспроизводится через устройство вывода по умолчанию.";
+
+/* Inactivity deactivation */
+"Deactivate after inactivity" = "Деактивировать после бездействия";
+"Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "Автоматически деактивируется после указанного периода бездействия пользователя (отсутствие ввода с клавиатуры или мыши).";

@@ -206,6 +206,8 @@ private struct SleepSection: View {
     @AppStorage(PreferenceKeys.dimScreenOnLidClose) private var dimScreenOnLidClose = false
     @AppStorage(PreferenceKeys.batteryThresholdEnabled) private var batteryThresholdEnabled = false
     @AppStorage(PreferenceKeys.batteryThreshold) private var batteryThreshold = 20
+    @AppStorage(PreferenceKeys.inactivityDeactivationEnabled) private var inactivityDeactivationEnabled = false
+    @AppStorage(PreferenceKeys.inactivityThreshold) private var inactivityThreshold = 10
 
     @State private var showSudoersAlert = false
 
@@ -312,6 +314,48 @@ private struct SleepSection: View {
 
             descriptionText(
                 "Automatically deactivates when on battery power and the battery level drops below the threshold."
+            )
+
+            Divider().padding(.vertical, 6)
+
+            Toggle(
+                "Deactivate after inactivity",
+                isOn: Binding(
+                    get: { self.inactivityDeactivationEnabled },
+                    set: { newValue in
+                        self.inactivityDeactivationEnabled = newValue
+                        self.viewModel.updateInactivityDeactivation(
+                            enabled: newValue, threshold: self.inactivityThreshold
+                        )
+                    }
+                )
+            )
+            .font(.system(size: 13))
+
+            if self.inactivityDeactivationEnabled {
+                HStack(spacing: 10) {
+                    Text("Threshold:")
+                        .font(.system(size: 12))
+                    Slider(
+                        value: Binding(
+                            get: { Double(self.inactivityThreshold) },
+                            set: { newValue in
+                                self.inactivityThreshold = Int(newValue)
+                                self.viewModel.updateInactivityDeactivation(
+                                    enabled: true, threshold: self.inactivityThreshold
+                                )
+                            }
+                        ), in: 5...60, step: 5
+                    )
+                    Text("\(self.inactivityThreshold) min")
+                        .font(.system(size: 12, weight: .medium))
+                        .frame(width: 50, alignment: .trailing)
+                }
+                .padding(.leading, 20)
+            }
+
+            descriptionText(
+                "Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)."
             )
         }
     }

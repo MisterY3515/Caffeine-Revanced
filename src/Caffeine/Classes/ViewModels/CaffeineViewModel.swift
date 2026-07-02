@@ -299,6 +299,15 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    func updateInactivityDeactivation(enabled: Bool, threshold: Int) {
+        InactivityMonitor.shared.thresholdMinutes = threshold > 0 ? threshold : 10
+        if enabled {
+            InactivityMonitor.shared.start()
+        } else {
+            InactivityMonitor.shared.stop()
+        }
+    }
+
     func requestNotificationAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
             granted, error in
@@ -503,6 +512,18 @@ class CaffeineViewModel: ObservableObject {
                 self.autoActivate(source: "audio")
             }
         }
+
+        InactivityMonitor.shared.onThresholdReached = { [weak self] in
+            Task { @MainActor in
+                guard let self, self.isActive else { return }
+                self.deactivate()
+            }
+        }
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.inactivityDeactivationEnabled) {
+            let threshold = UserDefaults.standard.integer(forKey: PreferenceKeys.inactivityThreshold)
+            InactivityMonitor.shared.thresholdMinutes = threshold > 0 ? threshold : 10
+            InactivityMonitor.shared.start()
+        }
     }
 
     private func handleSSIDChange(_ ssid: String?) {
@@ -577,4 +598,6 @@ enum PreferenceKeys {
     static let networkActivationSSIDs = "CANetworkActivationSSIDs"
     static let externalDisplayActivation = "CAExternalDisplayActivation"
     static let audioActivation = "CAAudioActivation"
+    static let inactivityDeactivationEnabled = "CAInactivityDeactivationEnabled"
+    static let inactivityThreshold = "CAInactivityThreshold"
 }

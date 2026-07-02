@@ -101,3 +101,7 @@
 /* Audio activation */
 "Activate when audio is playing" = "播放音频时激活";
 "Automatically activates while audio is playing through the default output device." = "通过默认输出设备播放音频时自动激活。";
+
+/* Inactivity deactivation */
+"Deactivate after inactivity" = "闲置后停用";
+"Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "在指定的闲置时间（无键盘或鼠标输入）后自动停用。";

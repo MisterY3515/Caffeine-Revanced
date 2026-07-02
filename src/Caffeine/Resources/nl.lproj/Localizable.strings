@@ -101,3 +101,7 @@
 /* Audio activation */
 "Activate when audio is playing" = "Activeren wanneer audio wordt afgespeeld";
 "Automatically activates while audio is playing through the default output device." = "Activeert automatisch terwijl audio wordt afgespeeld via het standaard uitvoerapparaat.";
+
+/* Inactivity deactivation */
+"Deactivate after inactivity" = "Deactiveren na inactiviteit";
+"Automatically deactivates after the specified period of user inactivity (no keyboard or mouse input)." = "Deactiveert automatisch na de opgegeven periode van gebruikersinactiviteit (geen toetsenbord- of muisinvoer).";
