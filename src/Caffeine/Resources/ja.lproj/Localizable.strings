@@ -110,6 +110,22 @@
 "Activate on high CPU load" = "CPU負荷が高いときに有効にする";
 "Automatically activates when sustained CPU load rises above the threshold." = "持続的なCPU負荷がしきい値を超えると自動的に有効になります。";
 
+/* AppIntents / Shortcuts / Focus Filter */
+"Toggle Caffeine Revanced" = "Caffeine Revancedを切り替え";
+"Turns Caffeine Revanced on or off." = "Caffeine Revancedのオン/オフを切り替えます。";
+"Activate Caffeine Revanced" = "Caffeine Revancedを有効にする";
+"Activates Caffeine Revanced, optionally for a specific duration." = "Caffeine Revancedを有効にします。指定した時間だけ有効にすることもできます。";
+"Duration (minutes)" = "時間（分）";
+"Deactivate Caffeine Revanced" = "Caffeine Revancedを無効にする";
+"Deactivates Caffeine Revanced." = "Caffeine Revancedを無効にします。";
+"Caffeine Revanced Is Active" = "Caffeine Revancedが有効かどうか";
+"Returns whether Caffeine Revanced is currently active." = "Caffeine Revancedが現在有効かどうかを返します。";
+"Turn On Caffeine Revanced" = "Caffeine Revancedをオンにする";
+"Turn Off Caffeine Revanced" = "Caffeine Revancedをオフにする";
+"Toggle" = "切り替え";
+"Activate" = "有効にする";
+"Deactivate" = "無効にする";
+
 /* Custom durations */
 "Custom durations" = "カスタム時間";
 "No custom durations added." = "カスタム時間は追加されていません。";

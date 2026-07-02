@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deactivate after inactivity: auto-deactivates after a configurable period of no keyboard or mouse input.
 - Auto-activate on high CPU load: activates when sustained CPU load rises above a configurable threshold.
 - Custom durations: add extra activation durations shown in the menu bar's "Activate for" submenu.
+- Shortcuts and Siri support: Toggle, Activate (with optional duration), Deactivate, and Get Status intents.
+- Focus Filter integration: a Focus (e.g. Work, Do Not Disturb) can activate or deactivate Caffeine Revanced while the app is running.
 - Preferences reorganised into four tabs: General, Sleep, Shortcut, Auto-Activate.
 
 ### Changed

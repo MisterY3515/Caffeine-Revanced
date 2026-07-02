@@ -5,6 +5,7 @@
 //  Created by Dominic Rodemer on 11.11.25.
 //
 
+import AppIntents
 import Cocoa
 import Sparkle
 import SwiftUI
@@ -25,6 +26,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 
         // Hide the dock icon - this is a menu bar only app
         NSApp.setActivationPolicy(.accessory)
+
+        if let viewModel = CaffeineViewModel.shared {
+            AppDependencyManager.shared.add(dependency: viewModel)
+        }
     }
 
     func applicationWillTerminate(_: Notification) {

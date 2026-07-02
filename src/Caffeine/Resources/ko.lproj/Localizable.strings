@@ -110,6 +110,22 @@
 "Activate on high CPU load" = "높은 CPU 부하 시 활성화";
 "Automatically activates when sustained CPU load rises above the threshold." = "지속적인 CPU 부하가 임계값을 초과하면 자동으로 활성화됩니다.";
 
+/* AppIntents / Shortcuts / Focus Filter */
+"Toggle Caffeine Revanced" = "Caffeine Revanced 전환";
+"Turns Caffeine Revanced on or off." = "Caffeine Revanced를 켜거나 끕니다.";
+"Activate Caffeine Revanced" = "Caffeine Revanced 활성화";
+"Activates Caffeine Revanced, optionally for a specific duration." = "Caffeine Revanced를 활성화합니다. 특정 시간 동안만 활성화할 수도 있습니다.";
+"Duration (minutes)" = "시간(분)";
+"Deactivate Caffeine Revanced" = "Caffeine Revanced 비활성화";
+"Deactivates Caffeine Revanced." = "Caffeine Revanced를 비활성화합니다.";
+"Caffeine Revanced Is Active" = "Caffeine Revanced 활성화 여부";
+"Returns whether Caffeine Revanced is currently active." = "Caffeine Revanced가 현재 활성화되어 있는지 여부를 반환합니다.";
+"Turn On Caffeine Revanced" = "Caffeine Revanced 켜기";
+"Turn Off Caffeine Revanced" = "Caffeine Revanced 끄기";
+"Toggle" = "전환";
+"Activate" = "활성화";
+"Deactivate" = "비활성화";
+
 /* Custom durations */
 "Custom durations" = "사용자 지정 시간";
 "No custom durations added." = "추가된 사용자 지정 시간이 없습니다.";

@@ -110,6 +110,22 @@
 "Activate on high CPU load" = "CPU 负载过高时激活";
 "Automatically activates when sustained CPU load rises above the threshold." = "当持续 CPU 负载超过阈值时自动激活。";
 
+/* AppIntents / Shortcuts / Focus Filter */
+"Toggle Caffeine Revanced" = "切换 Caffeine Revanced";
+"Turns Caffeine Revanced on or off." = "开启或关闭 Caffeine Revanced。";
+"Activate Caffeine Revanced" = "激活 Caffeine Revanced";
+"Activates Caffeine Revanced, optionally for a specific duration." = "激活 Caffeine Revanced，可选择指定持续时间。";
+"Duration (minutes)" = "时长（分钟）";
+"Deactivate Caffeine Revanced" = "停用 Caffeine Revanced";
+"Deactivates Caffeine Revanced." = "停用 Caffeine Revanced。";
+"Caffeine Revanced Is Active" = "Caffeine Revanced 是否已激活";
+"Returns whether Caffeine Revanced is currently active." = "返回 Caffeine Revanced 当前是否处于激活状态。";
+"Turn On Caffeine Revanced" = "开启 Caffeine Revanced";
+"Turn Off Caffeine Revanced" = "关闭 Caffeine Revanced";
+"Toggle" = "切换";
+"Activate" = "激活";
+"Deactivate" = "停用";
+
 /* Custom durations */
 "Custom durations" = "自定义时长";
 "No custom durations added." = "尚未添加自定义时长。";

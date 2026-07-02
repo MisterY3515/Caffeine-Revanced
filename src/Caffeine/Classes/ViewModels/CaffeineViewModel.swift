@@ -20,6 +20,10 @@ struct WatchedApp: Codable, Identifiable, Equatable {
 
 @MainActor
 class CaffeineViewModel: ObservableObject {
+    /// Set by the first (and only) instance, created by `MenuBarController`. Used to
+    /// inject this view model as an `AppDependencyManager` dependency for AppIntents.
+    weak static var shared: CaffeineViewModel?
+
     // MARK: - Published Properties
 
     @Published var isActive = false
@@ -39,6 +43,7 @@ class CaffeineViewModel: ObservableObject {
     // MARK: - Initialization
 
     init() {
+        Self.shared = self
         self.isActive = false
         self.timeRemaining = nil
 

@@ -110,6 +110,22 @@
 "Activate on high CPU load" = "Активировать при высокой загрузке ЦП";
 "Automatically activates when sustained CPU load rises above the threshold." = "Автоматически активируется при устойчивом превышении порога загрузки ЦП.";
 
+/* AppIntents / Shortcuts / Focus Filter */
+"Toggle Caffeine Revanced" = "Переключить Caffeine Revanced";
+"Turns Caffeine Revanced on or off." = "Включает или выключает Caffeine Revanced.";
+"Activate Caffeine Revanced" = "Активировать Caffeine Revanced";
+"Activates Caffeine Revanced, optionally for a specific duration." = "Активирует Caffeine Revanced, при необходимости на определённое время.";
+"Duration (minutes)" = "Длительность (минуты)";
+"Deactivate Caffeine Revanced" = "Деактивировать Caffeine Revanced";
+"Deactivates Caffeine Revanced." = "Деактивирует Caffeine Revanced.";
+"Caffeine Revanced Is Active" = "Caffeine Revanced активен";
+"Returns whether Caffeine Revanced is currently active." = "Возвращает, активен ли Caffeine Revanced в данный момент.";
+"Turn On Caffeine Revanced" = "Включить Caffeine Revanced";
+"Turn Off Caffeine Revanced" = "Выключить Caffeine Revanced";
+"Toggle" = "Переключить";
+"Activate" = "Активировать";
+"Deactivate" = "Деактивировать";
+
 /* Custom durations */
 "Custom durations" = "Пользовательские длительности";
 "No custom durations added." = "Пользовательские длительности не добавлены.";

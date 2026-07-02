@@ -110,6 +110,22 @@
 "Activate on high CPU load" = "Активувати при високому навантаженні ЦП";
 "Automatically activates when sustained CPU load rises above the threshold." = "Автоматично активується при стійкому перевищенні порогу навантаження ЦП.";
 
+/* AppIntents / Shortcuts / Focus Filter */
+"Toggle Caffeine Revanced" = "Перемкнути Caffeine Revanced";
+"Turns Caffeine Revanced on or off." = "Вмикає або вимикає Caffeine Revanced.";
+"Activate Caffeine Revanced" = "Активувати Caffeine Revanced";
+"Activates Caffeine Revanced, optionally for a specific duration." = "Активує Caffeine Revanced, за потреби на визначений час.";
+"Duration (minutes)" = "Тривалість (хвилини)";
+"Deactivate Caffeine Revanced" = "Деактивувати Caffeine Revanced";
+"Deactivates Caffeine Revanced." = "Деактивує Caffeine Revanced.";
+"Caffeine Revanced Is Active" = "Caffeine Revanced активний";
+"Returns whether Caffeine Revanced is currently active." = "Повертає, чи активний Caffeine Revanced зараз.";
+"Turn On Caffeine Revanced" = "Увімкнути Caffeine Revanced";
+"Turn Off Caffeine Revanced" = "Вимкнути Caffeine Revanced";
+"Toggle" = "Перемкнути";
+"Activate" = "Активувати";
+"Deactivate" = "Деактивувати";
+
 /* Custom durations */
 "Custom durations" = "Користувацькі тривалості";
 "No custom durations added." = "Користувацькі тривалості не додано.";
