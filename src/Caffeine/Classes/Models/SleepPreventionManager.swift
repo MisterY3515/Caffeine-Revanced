@@ -77,7 +77,61 @@ final class SleepPreventionManager {
         self.isCurrentlyPreventing = false
         self.releaseAssertions()
         if self.sleepDisabledByUs {
-            self.setDisableSleep(false, promptIfNeeded: promptIfNeeded) { _ in }
+            self.setDisableSleep(false, promptIfNeeded: promptIfNeeded) { [weak self] ok in
+                // macOS does not re-evaluate the closed-lid sleep policy after disablesleep
+                // changes dynamically. If the lid is still closed we must request sleep
+                // explicitly, otherwise the Mac stays awake indefinitely.
+                //
+                // Skip if an external display is active (clamshell mode): the user is
+                // intentionally running with the lid closed and should not be put to sleep.
+                DZLog(
+                    "allowSleep: pmset ok=\(ok) preventing=\(String(describing: self?.isCurrentlyPreventing)) "
+                        + "lidClosed=\(LidStateMonitor.isClosed()) "
+                        + "externalDisplay=\(SleepPreventionManager.hasActiveExternalDisplay())"
+                )
+                guard
+                    ok,
+                    self?.isCurrentlyPreventing == false,
+                    LidStateMonitor.isClosed(),
+                    !SleepPreventionManager.hasActiveExternalDisplay() else { return }
+                self?.waitForDisableSleepClearedThenSleep()
+            }
+        }
+    }
+
+    /// `pmset -a disablesleep 0` reporting success does not mean powerd has internally
+    /// re-armed lid-close sleep yet — that propagation is itself asynchronous, so a fixed
+    /// delay before requesting sleep is unreliable. Poll the real system state via
+    /// `pmset -g custom` until it confirms `disablesleep` is actually cleared (or give up
+    /// after ~3s and force the sleep request anyway).
+    private func waitForDisableSleepClearedThenSleep(attempt: Int = 0) {
+        guard
+            self.isCurrentlyPreventing == false,
+            LidStateMonitor.isClosed(),
+            !SleepPreventionManager.hasActiveExternalDisplay() else
+        {
+            DZLog("waitForDisableSleepClearedThenSleep: aborting, state changed")
+            return
+        }
+        guard attempt < 10 else {
+            DZLog("waitForDisableSleepClearedThenSleep: gave up waiting, forcing sleep anyway")
+            self.triggerSystemSleep()
+            return
+        }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let stillDisabled = SleepPreventionManager.isSystemSleepCurrentlyDisabled()
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if stillDisabled {
+                    DZLog("waitForDisableSleepClearedThenSleep: still disabled, attempt \(attempt)")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                        self?.waitForDisableSleepClearedThenSleep(attempt: attempt + 1)
+                    }
+                } else {
+                    DZLog("waitForDisableSleepClearedThenSleep: cleared after \(attempt) checks")
+                    self.triggerSystemSleep()
+                }
+            }
         }
     }
 
@@ -227,8 +281,12 @@ final class SleepPreventionManager {
         process.arguments = ["-n"] + args
         process.standardOutput = Pipe()
         process.standardError = Pipe()
-        do { try process.run() } catch { return false }
+        do { try process.run() } catch {
+            DZLog("runSudo \(args): launch failed: \(error)")
+            return false
+        }
         process.waitUntilExit()
+        DZLog("runSudo \(args): status=\(process.terminationStatus)")
         return process.terminationStatus == 0
     }
 
@@ -265,6 +323,57 @@ final class SleepPreventionManager {
         let ok = process.terminationStatus == 0
         DZLog("pmset disablesleep \(value) via sudoers install: status=\(process.terminationStatus)")
         return ok
+    }
+
+    /// Returns true when an external display is active while the lid is closed
+    /// (clamshell mode): the built-in panel is in hardware sleep so only external
+    /// displays appear in `CGGetActiveDisplayList`.
+    private static func hasActiveExternalDisplay() -> Bool {
+        var ids = [CGDirectDisplayID](repeating: 0, count: 8)
+        var count: UInt32 = 0
+        CGGetActiveDisplayList(8, &ids, &count)
+        return Array(ids.prefix(Int(count))).contains { CGDisplayIsBuiltin($0) == 0 }
+    }
+
+    /// Requests system sleep, then retries a few times in case the first request is vetoed
+    /// (macOS is known to sometimes ignore the first sleep request after a policy change —
+    /// see "macOS won't sleep from the Apple menu" reports requiring multiple attempts).
+    /// If the Mac actually sleeps, the process suspends and later-scheduled retries simply
+    /// never fire until wake, at which point they are harmless no-ops if state has changed.
+    private func triggerSystemSleep(attempt: Int = 0) {
+        // Primary: pmset sleepnow is user-accessible without root (documented in man pmset).
+        let p = Process()
+        p.executableURL = URL(fileURLWithPath: "/usr/bin/pmset")
+        p.arguments = ["sleepnow"]
+        let outPipe = Pipe()
+        let errPipe = Pipe()
+        p.standardOutput = outPipe
+        p.standardError = errPipe
+        do {
+            try p.run()
+            p.waitUntilExit()
+            DZLog("triggerSystemSleep: pmset sleepnow attempt=\(attempt) status=\(p.terminationStatus)")
+        } catch {
+            DZLog("triggerSystemSleep: pmset sleepnow attempt=\(attempt) launch failed: \(error)")
+        }
+
+        // Belt-and-suspenders: IOPMSleepSystem as a secondary path.
+        let fb = IOPMFindPowerManagement(mach_port_t(MACH_PORT_NULL))
+        if fb != MACH_PORT_NULL {
+            let result = IOPMSleepSystem(fb)
+            mach_port_deallocate(mach_task_self_, fb)
+            DZLog("triggerSystemSleep: IOPMSleepSystem attempt=\(attempt) result=\(result)")
+        }
+
+        guard attempt < 2 else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            guard
+                let self,
+                self.isCurrentlyPreventing == false,
+                LidStateMonitor.isClosed(),
+                !SleepPreventionManager.hasActiveExternalDisplay() else { return }
+            self.triggerSystemSleep(attempt: attempt + 1)
+        }
     }
 
     private func syncLidMonitoring() {
@@ -316,12 +425,14 @@ final class SleepPreventionManager {
         )
     }
 
-    @objc private func sessionDidResignActive() {
+    @objc
+    private func sessionDidResignActive() {
         self.isUserSessionActive = false
         self.releaseAssertions()
     }
 
-    @objc private func sessionDidBecomeActive() {
+    @objc
+    private func sessionDidBecomeActive() {
         self.isUserSessionActive = true
         if self.isCurrentlyPreventing {
             self.acquireAssertions()

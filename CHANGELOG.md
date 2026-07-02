@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- When a timer expires while the lid is closed, the Mac now goes to standby immediately instead of remaining awake until the lid is manually opened and closed again. The fix now polls the actual system state to confirm the lid-close sleep block is cleared before requesting sleep, and retries the sleep request a few times as a safety net against a known macOS quirk where the first request can be ignored.
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
 - Global shortcut ⌘⌥C now correctly toggles Caffeine when enabled from Preferences (callback was only wired at launch if already enabled).
 - Claude Code auto-activation now detects `claude` immediately when the feature is enabled, without waiting for the next 5-second poll.
