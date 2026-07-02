@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "Activate on high CPU load";
 "Automatically activates when sustained CPU load rises above the threshold." = "Automatically activates when sustained CPU load rises above the threshold.";
+
+/* Custom durations */
+"Custom durations" = "Custom durations";
+"No custom durations added." = "No custom durations added.";
+"Add Duration..." = "Add Duration...";
+"Add" = "Add";
+"Minutes" = "Minutes";

@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "CPU 负载过高时激活";
 "Automatically activates when sustained CPU load rises above the threshold." = "当持续 CPU 负载超过阈值时自动激活。";
+
+/* Custom durations */
+"Custom durations" = "自定义时长";
+"No custom durations added." = "尚未添加自定义时长。";
+"Add Duration..." = "添加时长…";
+"Add" = "添加";
+"Minutes" = "分钟";

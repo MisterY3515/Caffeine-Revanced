@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "CPU負荷が高いときに有効にする";
 "Automatically activates when sustained CPU load rises above the threshold." = "持続的なCPU負荷がしきい値を超えると自動的に有効になります。";
+
+/* Custom durations */
+"Custom durations" = "カスタム時間";
+"No custom durations added." = "カスタム時間は追加されていません。";
+"Add Duration..." = "時間を追加…";
+"Add" = "追加";
+"Minutes" = "分";

@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "Activeren bij hoge CPU-belasting";
 "Automatically activates when sustained CPU load rises above the threshold." = "Activeert automatisch wanneer de aanhoudende CPU-belasting boven de drempel stijgt.";
+
+/* Custom durations */
+"Custom durations" = "Aangepaste duren";
+"No custom durations added." = "Geen aangepaste duren toegevoegd.";
+"Add Duration..." = "Duur toevoegen…";
+"Add" = "Toevoegen";
+"Minutes" = "Minuten";

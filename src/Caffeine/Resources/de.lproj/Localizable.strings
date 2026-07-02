@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "Bei hoher CPU-Auslastung aktivieren";
 "Automatically activates when sustained CPU load rises above the threshold." = "Aktiviert sich automatisch, wenn die anhaltende CPU-Auslastung den Schwellenwert überschreitet.";
+
+/* Custom durations */
+"Custom durations" = "Benutzerdefinierte Dauern";
+"No custom durations added." = "Keine benutzerdefinierten Dauern hinzugefügt.";
+"Add Duration..." = "Dauer hinzufügen…";
+"Add" = "Hinzufügen";
+"Minutes" = "Minuten";

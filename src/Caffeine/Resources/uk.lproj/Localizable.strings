@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "Активувати при високому навантаженні ЦП";
 "Automatically activates when sustained CPU load rises above the threshold." = "Автоматично активується при стійкому перевищенні порогу навантаження ЦП.";
+
+/* Custom durations */
+"Custom durations" = "Користувацькі тривалості";
+"No custom durations added." = "Користувацькі тривалості не додано.";
+"Add Duration..." = "Додати тривалість…";
+"Add" = "Додати";
+"Minutes" = "Хвилини";

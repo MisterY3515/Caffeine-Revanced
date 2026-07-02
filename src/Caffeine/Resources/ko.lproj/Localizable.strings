@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "높은 CPU 부하 시 활성화";
 "Automatically activates when sustained CPU load rises above the threshold." = "지속적인 CPU 부하가 임계값을 초과하면 자동으로 활성화됩니다.";
+
+/* Custom durations */
+"Custom durations" = "사용자 지정 시간";
+"No custom durations added." = "추가된 사용자 지정 시간이 없습니다.";
+"Add Duration..." = "시간 추가…";
+"Add" = "추가";
+"Minutes" = "분";

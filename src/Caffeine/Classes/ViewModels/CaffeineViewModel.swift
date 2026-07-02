@@ -356,6 +356,21 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Custom Durations
+
+    func customDurations() -> [Int] {
+        guard
+            let data = UserDefaults.standard.data(forKey: PreferenceKeys.customDurations),
+            let durations = try? JSONDecoder().decode([Int].self, from: data) else { return [] }
+        return durations
+    }
+
+    func saveCustomDurations(_ durations: [Int]) {
+        if let data = try? JSONEncoder().encode(durations) {
+            UserDefaults.standard.set(data, forKey: PreferenceKeys.customDurations)
+        }
+    }
+
     // MARK: - Formatted Time
 
     func formattedTimeRemaining() -> String? {
@@ -625,4 +640,5 @@ enum PreferenceKeys {
     static let inactivityThreshold = "CAInactivityThreshold"
     static let cpuActivationEnabled = "CACPUActivationEnabled"
     static let cpuThreshold = "CACPUThreshold"
+    static let customDurations = "CACustomDurations"
 }

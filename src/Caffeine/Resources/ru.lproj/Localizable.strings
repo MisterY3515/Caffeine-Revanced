@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "Активировать при высокой загрузке ЦП";
 "Automatically activates when sustained CPU load rises above the threshold." = "Автоматически активируется при устойчивом превышении порога загрузки ЦП.";
+
+/* Custom durations */
+"Custom durations" = "Пользовательские длительности";
+"No custom durations added." = "Пользовательские длительности не добавлены.";
+"Add Duration..." = "Добавить длительность…";
+"Add" = "Добавить";
+"Minutes" = "Минуты";

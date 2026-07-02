@@ -101,6 +101,9 @@ private struct GeneralSection: View {
     @AppStorage(PreferenceKeys.showTimeInMenuBar) private var showTimeInMenuBar = false
     @AppStorage(PreferenceKeys.notifyOnExpiry) private var notifyOnExpiry = false
     @State private var launchAtLogin = (SMAppService.mainApp.status == .enabled)
+    @State private var customDurations: [Int] = []
+    @State private var showAddDuration = false
+    @State private var newDurationText = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -192,7 +195,89 @@ private struct GeneralSection: View {
             .font(.system(size: 13))
 
             descriptionText("Shows a system notification when the activation period ends.")
+
+            Divider().padding(.vertical, 6)
+
+            Text("Custom durations")
+                .font(.system(size: 13))
+
+            self.customDurationsList
         }
+        .onAppear {
+            self.customDurations = self.viewModel.customDurations()
+        }
+    }
+
+    private var customDurationsList: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if self.customDurations.isEmpty {
+                Text("No custom durations added.")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+            } else {
+                ForEach(self.customDurations, id: \.self) { minutes in
+                    HStack {
+                        Text(Self.formattedDuration(minutes))
+                            .font(.system(size: 12))
+                        Spacer()
+                        Button(String(localized: "Remove")) {
+                            self.customDurations.removeAll { $0 == minutes }
+                            self.viewModel.saveCustomDurations(self.customDurations)
+                        }
+                        .font(.system(size: 11))
+                        .buttonStyle(.borderless)
+                        .foregroundColor(.red)
+                    }
+                    .padding(.leading, 20)
+                }
+            }
+
+            if self.showAddDuration {
+                HStack(spacing: 6) {
+                    TextField(String(localized: "Minutes"), text: self.$newDurationText)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 80)
+                        .onSubmit { self.addCustomDuration() }
+                    Button(String(localized: "Add")) { self.addCustomDuration() }
+                        .disabled(!self.isValidDurationInput)
+                    Button(String(localized: "Cancel"), role: .cancel) {
+                        self.showAddDuration = false
+                        self.newDurationText = ""
+                    }
+                }
+                .padding(.leading, 20)
+                .padding(.top, 2)
+            } else {
+                Button(String(localized: "Add Duration...")) {
+                    self.showAddDuration = true
+                }
+                .padding(.leading, 20)
+                .padding(.top, 2)
+            }
+        }
+    }
+
+    private var isValidDurationInput: Bool {
+        guard let value = Int(self.newDurationText.trimmingCharacters(in: .whitespaces)) else {
+            return false
+        }
+        return value >= 1 && value <= 999 && !self.customDurations.contains(value)
+    }
+
+    private func addCustomDuration() {
+        guard
+            self.isValidDurationInput,
+            let value = Int(self.newDurationText.trimmingCharacters(in: .whitespaces)) else { return }
+        self.customDurations.append(value)
+        self.customDurations.sort()
+        self.viewModel.saveCustomDurations(self.customDurations)
+        self.newDurationText = ""
+        self.showAddDuration = false
+    }
+
+    private static func formattedDuration(_ minutes: Int) -> String {
+        String.localizedStringWithFormat(String(localized: "%d minutes"), minutes)
     }
 }
 

@@ -139,6 +139,21 @@ class MenuBarController: NSObject {
             submenu.addItem(item)
         }
 
+        let customDurations = self.viewModel.customDurations().sorted()
+        if !customDurations.isEmpty {
+            submenu.addItem(NSMenuItem.separator())
+            for minutes in customDurations {
+                let item = NSMenuItem(
+                    title: String.localizedStringWithFormat(String(localized: "%d minutes"), minutes),
+                    action: #selector(self.activateWithDuration(_:)),
+                    keyEquivalent: ""
+                )
+                item.target = self
+                item.tag = minutes
+                submenu.addItem(item)
+            }
+        }
+
         activateForItem.submenu = submenu
         menu.addItem(activateForItem)
         menu.addItem(NSMenuItem.separator())

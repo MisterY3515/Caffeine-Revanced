@@ -109,3 +109,10 @@
 /* CPU activation */
 "Activate on high CPU load" = "Attiva con carico CPU elevato";
 "Automatically activates when sustained CPU load rises above the threshold." = "Si attiva automaticamente quando il carico CPU sostenuto supera la soglia.";
+
+/* Custom durations */
+"Custom durations" = "Durate personalizzate";
+"No custom durations added." = "Nessuna durata personalizzata aggiunta.";
+"Add Duration..." = "Aggiungi durata…";
+"Add" = "Aggiungi";
+"Minutes" = "Minuti";
