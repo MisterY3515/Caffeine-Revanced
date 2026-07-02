@@ -126,6 +126,14 @@
 "Activate" = "Активировать";
 "Deactivate" = "Деактивировать";
 
+/* Profiles */
+"Profiles" = "Профили";
+"No profiles saved." = "Нет сохранённых профилей.";
+"Apply" = "Применить";
+"Maximum of 5 profiles reached. Remove one to save a new profile." = "Достигнут максимум в 5 профилей. Удалите один, чтобы сохранить новый.";
+"Save Current Settings as Profile..." = "Сохранить текущие настройки как профиль…";
+"Profile name" = "Название профиля";
+
 /* Custom durations */
 "Custom durations" = "Пользовательские длительности";
 "No custom durations added." = "Пользовательские длительности не добавлены.";

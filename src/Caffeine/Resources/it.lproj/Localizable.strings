@@ -126,6 +126,14 @@
 "Activate" = "Attiva";
 "Deactivate" = "Disattiva";
 
+/* Profiles */
+"Profiles" = "Profili";
+"No profiles saved." = "Nessun profilo salvato.";
+"Apply" = "Applica";
+"Maximum of 5 profiles reached. Remove one to save a new profile." = "Raggiunto il limite di 5 profili. Rimuovine uno per salvarne uno nuovo.";
+"Save Current Settings as Profile..." = "Salva impostazioni attuali come profilo…";
+"Profile name" = "Nome profilo";
+
 /* Custom durations */
 "Custom durations" = "Durate personalizzate";
 "No custom durations added." = "Nessuna durata personalizzata aggiunta.";

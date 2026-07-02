@@ -126,6 +126,14 @@
 "Activate" = "有効にする";
 "Deactivate" = "無効にする";
 
+/* Profiles */
+"Profiles" = "プロファイル";
+"No profiles saved." = "保存されたプロファイルはありません。";
+"Apply" = "適用";
+"Maximum of 5 profiles reached. Remove one to save a new profile." = "プロファイルの上限（5個）に達しました。新しく保存するには1つ削除してください。";
+"Save Current Settings as Profile..." = "現在の設定をプロファイルとして保存…";
+"Profile name" = "プロファイル名";
+
 /* Custom durations */
 "Custom durations" = "カスタム時間";
 "No custom durations added." = "カスタム時間は追加されていません。";

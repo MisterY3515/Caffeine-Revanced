@@ -104,6 +104,10 @@ private struct GeneralSection: View {
     @State private var customDurations: [Int] = []
     @State private var showAddDuration = false
     @State private var newDurationText = ""
+    @State private var profiles: [Profile] = []
+    @State private var showSaveProfileSheet = false
+    @State private var newProfileName = ""
+    @State private var profilesExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -202,10 +206,91 @@ private struct GeneralSection: View {
                 .font(.system(size: 13))
 
             self.customDurationsList
+
+            Divider().padding(.vertical, 6)
+
+            DisclosureGroup(String(localized: "Profiles"), isExpanded: self.$profilesExpanded) {
+                self.profilesList
+            }
+            .font(.system(size: 13))
         }
         .onAppear {
             self.customDurations = self.viewModel.customDurations()
+            self.profiles = self.viewModel.profiles()
         }
+    }
+
+    private var profilesList: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if self.profiles.isEmpty {
+                Text("No profiles saved.")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+                    .padding(.top, 4)
+            } else {
+                ForEach(self.profiles) { profile in
+                    HStack {
+                        Text(profile.name)
+                            .font(.system(size: 12))
+                        Spacer()
+                        Button(String(localized: "Apply")) {
+                            self.viewModel.applyProfile(profile)
+                        }
+                        .font(.system(size: 11))
+                        .buttonStyle(.borderless)
+                        Button(String(localized: "Remove")) {
+                            self.viewModel.deleteProfile(id: profile.id)
+                            self.profiles = self.viewModel.profiles()
+                        }
+                        .font(.system(size: 11))
+                        .buttonStyle(.borderless)
+                        .foregroundColor(.red)
+                    }
+                    .padding(.leading, 20)
+                    .padding(.top, 4)
+                }
+            }
+
+            if self.profiles.count >= ProfileManager.maxProfiles {
+                Text("Maximum of 5 profiles reached. Remove one to save a new profile.")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+                    .padding(.top, 4)
+            } else if self.showSaveProfileSheet {
+                HStack(spacing: 6) {
+                    TextField(String(localized: "Profile name"), text: self.$newProfileName)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 160)
+                        .onSubmit { self.saveProfile() }
+                    Button(String(localized: "Add")) { self.saveProfile() }
+                        .disabled(self.newProfileName.trimmingCharacters(in: .whitespaces).isEmpty)
+                    Button(String(localized: "Cancel"), role: .cancel) {
+                        self.showSaveProfileSheet = false
+                        self.newProfileName = ""
+                    }
+                }
+                .padding(.leading, 20)
+                .padding(.top, 4)
+            } else {
+                Button(String(localized: "Save Current Settings as Profile...")) {
+                    self.showSaveProfileSheet = true
+                }
+                .padding(.leading, 20)
+                .padding(.top, 4)
+            }
+        }
+    }
+
+    private func saveProfile() {
+        let name = self.newProfileName.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return }
+        if self.viewModel.saveCurrentAsProfile(name: name) {
+            self.profiles = self.viewModel.profiles()
+        }
+        self.newProfileName = ""
+        self.showSaveProfileSheet = false
     }
 
     private var customDurationsList: some View {

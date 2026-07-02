@@ -158,6 +158,29 @@ class MenuBarController: NSObject {
         menu.addItem(activateForItem)
         menu.addItem(NSMenuItem.separator())
 
+        let profiles = self.viewModel.profiles()
+        if !profiles.isEmpty {
+            let profilesItem = NSMenuItem(
+                title: String(localized: "Profiles"),
+                action: nil,
+                keyEquivalent: ""
+            )
+            let profilesSubmenu = NSMenu()
+            for profile in profiles {
+                let item = NSMenuItem(
+                    title: profile.name,
+                    action: #selector(self.applyProfile(_:)),
+                    keyEquivalent: ""
+                )
+                item.target = self
+                item.representedObject = profile
+                profilesSubmenu.addItem(item)
+            }
+            profilesItem.submenu = profilesSubmenu
+            menu.addItem(profilesItem)
+            menu.addItem(NSMenuItem.separator())
+        }
+
         let prefsItem = NSMenuItem(
             title: String(localized: "Preferences..."),
             action: #selector(showPreferences(_:)),
@@ -202,6 +225,12 @@ class MenuBarController: NSObject {
         let minutes = sender.tag
         let seconds = minutes > 0 ? TimeInterval(minutes * 60) : 0
         self.viewModel.activate(withTimeout: seconds)
+    }
+
+    @objc
+    private func applyProfile(_ sender: NSMenuItem) {
+        guard let profile = sender.representedObject as? Profile else { return }
+        self.viewModel.applyProfile(profile)
     }
 
     @objc

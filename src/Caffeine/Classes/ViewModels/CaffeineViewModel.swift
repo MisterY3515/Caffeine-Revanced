@@ -376,6 +376,31 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Profiles
+
+    func profiles() -> [Profile] {
+        ProfileManager.load()
+    }
+
+    /// Returns `false` without saving if the 5-profile limit has been reached.
+    func saveCurrentAsProfile(name: String) -> Bool {
+        var profiles = ProfileManager.load()
+        guard profiles.count < ProfileManager.maxProfiles else { return false }
+        profiles.append(ProfileManager.captureCurrent(name: name))
+        ProfileManager.save(profiles)
+        return true
+    }
+
+    func deleteProfile(id: UUID) {
+        var profiles = ProfileManager.load()
+        profiles.removeAll { $0.id == id }
+        ProfileManager.save(profiles)
+    }
+
+    func applyProfile(_ profile: Profile) {
+        ProfileManager.apply(profile, to: self)
+    }
+
     // MARK: - Formatted Time
 
     func formattedTimeRemaining() -> String? {
@@ -646,4 +671,5 @@ enum PreferenceKeys {
     static let cpuActivationEnabled = "CACPUActivationEnabled"
     static let cpuThreshold = "CACPUThreshold"
     static let customDurations = "CACustomDurations"
+    static let profiles = "CAProfiles"
 }

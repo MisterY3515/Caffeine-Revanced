@@ -126,6 +126,14 @@
 "Activate" = "激活";
 "Deactivate" = "停用";
 
+/* Profiles */
+"Profiles" = "配置文件";
+"No profiles saved." = "尚未保存任何配置文件。";
+"Apply" = "应用";
+"Maximum of 5 profiles reached. Remove one to save a new profile." = "已达到 5 个配置文件的上限。请删除一个后再保存新的。";
+"Save Current Settings as Profile..." = "将当前设置保存为配置文件…";
+"Profile name" = "配置文件名称";
+
 /* Custom durations */
 "Custom durations" = "自定义时长";
 "No custom durations added." = "尚未添加自定义时长。";

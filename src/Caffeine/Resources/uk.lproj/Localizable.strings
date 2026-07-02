@@ -126,6 +126,14 @@
 "Activate" = "Активувати";
 "Deactivate" = "Деактивувати";
 
+/* Profiles */
+"Profiles" = "Профілі";
+"No profiles saved." = "Немає збережених профілів.";
+"Apply" = "Застосувати";
+"Maximum of 5 profiles reached. Remove one to save a new profile." = "Досягнуто максимуму в 5 профілів. Видаліть один, щоб зберегти новий.";
+"Save Current Settings as Profile..." = "Зберегти поточні налаштування як профіль…";
+"Profile name" = "Назва профілю";
+
 /* Custom durations */
 "Custom durations" = "Користувацькі тривалості";
 "No custom durations added." = "Користувацькі тривалості не додано.";

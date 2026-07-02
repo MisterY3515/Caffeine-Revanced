@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom durations: add extra activation durations shown in the menu bar's "Activate for" submenu.
 - Shortcuts and Siri support: Toggle, Activate (with optional duration), Deactivate, and Get Status intents.
 - Focus Filter integration: a Focus (e.g. Work, Do Not Disturb) can activate or deactivate Caffeine Revanced while the app is running.
+- Profiles: save up to 5 snapshots of activation-related preferences and re-apply them from Preferences or the menu bar's Profiles submenu.
 - Preferences reorganised into four tabs: General, Sleep, Shortcut, Auto-Activate.
 
 ### Changed

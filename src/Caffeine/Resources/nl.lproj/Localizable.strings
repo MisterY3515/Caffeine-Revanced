@@ -126,6 +126,14 @@
 "Activate" = "Activeren";
 "Deactivate" = "Deactiveren";
 
+/* Profiles */
+"Profiles" = "Profielen";
+"No profiles saved." = "Geen profielen opgeslagen.";
+"Apply" = "Toepassen";
+"Maximum of 5 profiles reached. Remove one to save a new profile." = "Maximum van 5 profielen bereikt. Verwijder er een om een nieuw profiel op te slaan.";
+"Save Current Settings as Profile..." = "Huidige instellingen opslaan als profiel…";
+"Profile name" = "Profielnaam";
+
 /* Custom durations */
 "Custom durations" = "Aangepaste duren";
 "No custom durations added." = "Geen aangepaste duren toegevoegd.";
