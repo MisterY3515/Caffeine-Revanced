@@ -93,3 +93,7 @@
 "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "Durch Aktivieren dieser Option wird eine Systemdatei erstellt, die es Caffeine Revanced ermöglicht, den Ruhezustand beim Schließen des Deckels zu verhindern, ohne jedes Mal nach dem Passwort zu fragen. Beim Deaktivieren wird die Datei automatisch entfernt.";
 "Continue" = "Fortfahren";
 "Keeps the Mac awake when the lid is closed while Caffeine Revanced is running. Requires one-time administrator authorization." = "Hält den Mac wach, wenn der Deckel geschlossen ist und Caffeine Revanced läuft. Erfordert einmalige Administratorautorisierung.";
+
+/* External display activation */
+"Activate when an external display is connected" = "Aktivieren, wenn ein externer Bildschirm angeschlossen wird";
+"Automatically activates when an external display is connected, and deactivates when disconnected." = "Aktiviert sich automatisch, wenn ein externer Bildschirm angeschlossen wird, und deaktiviert sich beim Trennen.";

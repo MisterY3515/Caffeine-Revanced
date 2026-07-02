@@ -13,7 +13,9 @@ import UserNotifications
 struct WatchedApp: Codable, Identifiable, Equatable {
     let bundleID: String
     let name: String
-    var id: String { self.bundleID }
+    var id: String {
+        self.bundleID
+    }
 }
 
 @MainActor
@@ -273,6 +275,18 @@ class CaffeineViewModel: ObservableObject {
         }
     }
 
+    func updateExternalDisplayActivation(enabled: Bool) {
+        if enabled {
+            ExternalDisplayMonitor.shared.start()
+            if ExternalDisplayMonitor.hasExternalDisplay() {
+                self.autoActivate(source: "externalDisplay")
+            }
+        } else {
+            ExternalDisplayMonitor.shared.stop()
+            self.autoDeactivate(source: "externalDisplay")
+        }
+    }
+
     func requestNotificationAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
             granted, error in
@@ -284,9 +298,9 @@ class CaffeineViewModel: ObservableObject {
     // MARK: - Watched Apps
 
     func watchedApps() -> [WatchedApp] {
-        guard let data = UserDefaults.standard.data(forKey: PreferenceKeys.appActivationApps),
-            let apps = try? JSONDecoder().decode([WatchedApp].self, from: data)
-        else { return [] }
+        guard
+            let data = UserDefaults.standard.data(forKey: PreferenceKeys.appActivationApps),
+            let apps = try? JSONDecoder().decode([WatchedApp].self, from: data) else { return [] }
         return apps
     }
 
@@ -299,9 +313,9 @@ class CaffeineViewModel: ObservableObject {
     // MARK: - Watched Networks
 
     func watchedNetworks() -> [String] {
-        guard let data = UserDefaults.standard.data(forKey: PreferenceKeys.networkActivationSSIDs),
-            let nets = try? JSONDecoder().decode([String].self, from: data)
-        else { return [] }
+        guard
+            let data = UserDefaults.standard.data(forKey: PreferenceKeys.networkActivationSSIDs),
+            let nets = try? JSONDecoder().decode([String].self, from: data) else { return [] }
         return nets
     }
 
@@ -375,9 +389,8 @@ class CaffeineViewModel: ObservableObject {
             guard UserDefaults.standard.bool(forKey: PreferenceKeys.appActivationEnabled) else { return }
             guard
                 let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey]
-                    as? NSRunningApplication,
-                let bid = app.bundleIdentifier
-            else { return }
+                as? NSRunningApplication,
+                let bid = app.bundleIdentifier else { return }
 
             let watched = Set(self.watchedApps().map(\.bundleID))
             if watched.contains(bid) {
@@ -449,6 +462,20 @@ class CaffeineViewModel: ObservableObject {
         }
         if UserDefaults.standard.bool(forKey: PreferenceKeys.globalHotkeyEnabled) {
             HotkeyManager.shared.register()
+        }
+
+        ExternalDisplayMonitor.shared.onExternalDisplayConnected = { [weak self] in
+            Task { @MainActor in self?.autoActivate(source: "externalDisplay") }
+        }
+        ExternalDisplayMonitor.shared.onExternalDisplayDisconnected = { [weak self] in
+            Task { @MainActor in self?.autoDeactivate(source: "externalDisplay") }
+        }
+
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.externalDisplayActivation) {
+            ExternalDisplayMonitor.shared.start()
+            if ExternalDisplayMonitor.hasExternalDisplay() {
+                self.autoActivate(source: "externalDisplay")
+            }
         }
     }
 
@@ -522,4 +549,5 @@ enum PreferenceKeys {
     static let appActivationApps = "CAAppActivationApps"
     static let networkActivationEnabled = "CANetworkActivationEnabled"
     static let networkActivationSSIDs = "CANetworkActivationSSIDs"
+    static let externalDisplayActivation = "CAExternalDisplayActivation"
 }

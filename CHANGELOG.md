@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auto-activate when Claude Code CLI is running: activates automatically while `claude` process is detected; deactivates when it exits.
 - Auto-activate for specific apps: activates when a watched app is the frontmost application.
 - Auto-activate on specific Wi-Fi networks: activates when connected to a saved SSID.
+- Auto-activate when an external display is connected: activates when an external display is connected and deactivates when disconnected.
 - Preferences reorganised into four tabs: General, Sleep, Shortcut, Auto-Activate.
 
 ### Changed

@@ -14,23 +14,23 @@ struct PreferencesView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            headerView
+            self.headerView
             Divider()
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     GeneralSection(viewModel: self.viewModel)
-                    sectionDivider(String(localized: "Sleep"))
+                    self.sectionDivider(String(localized: "Sleep"))
                     SleepSection(viewModel: self.viewModel)
-                    sectionDivider(String(localized: "Shortcut"))
+                    self.sectionDivider(String(localized: "Shortcut"))
                     ShortcutSection(viewModel: self.viewModel)
-                    sectionDivider(String(localized: "Auto-Activate"))
+                    self.sectionDivider(String(localized: "Auto-Activate"))
                     AutoActivateSection(viewModel: self.viewModel)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 16)
             }
             Divider()
-            footerView
+            self.footerView
         }
         .frame(width: 680)
     }
@@ -301,7 +301,8 @@ private struct SleepSection: View {
                         value: Binding(
                             get: { Double(self.batteryThreshold) },
                             set: { self.batteryThreshold = Int($0) }
-                        ), in: 5...50, step: 5)
+                        ), in: 5...50, step: 5
+                    )
                     Text("\(self.batteryThreshold)%")
                         .font(.system(size: 12, weight: .medium))
                         .frame(width: 36, alignment: .trailing)
@@ -349,6 +350,7 @@ private struct AutoActivateSection: View {
     @ObservedObject var viewModel: CaffeineViewModel
 
     @AppStorage(PreferenceKeys.powerActivationEnabled) private var powerActivationEnabled = false
+    @AppStorage(PreferenceKeys.externalDisplayActivation) private var externalDisplayActivation = false
     @AppStorage(PreferenceKeys.claudeCodeActivation) private var claudeCodeActivation = false
     @AppStorage(PreferenceKeys.appActivationEnabled) private var appActivationEnabled = false
     @AppStorage(PreferenceKeys.networkActivationEnabled) private var networkActivationEnabled = false
@@ -373,6 +375,24 @@ private struct AutoActivateSection: View {
 
             descriptionText(
                 "Automatically activates when the Mac is connected to AC power, and deactivates when it switches to battery."
+            )
+
+            Divider().padding(.vertical, 6)
+
+            Toggle(
+                "Activate when an external display is connected",
+                isOn: Binding(
+                    get: { self.externalDisplayActivation },
+                    set: { newValue in
+                        self.externalDisplayActivation = newValue
+                        self.viewModel.updateExternalDisplayActivation(enabled: newValue)
+                    }
+                )
+            )
+            .font(.system(size: 13))
+
+            descriptionText(
+                "Automatically activates when an external display is connected, and deactivates when disconnected."
             )
 
             Divider().padding(.vertical, 6)
@@ -406,9 +426,10 @@ private struct AutoActivateSection: View {
             .font(.system(size: 13))
 
             descriptionText(
-                "Automatically activates when any of these apps is the frontmost application.")
+                "Automatically activates when any of these apps is the frontmost application."
+            )
 
-            appList
+            self.appList
 
             Divider().padding(.vertical, 6)
 
@@ -426,7 +447,7 @@ private struct AutoActivateSection: View {
 
             descriptionText("Automatically activates when connected to any of these Wi-Fi networks.")
 
-            networkList
+            self.networkList
         }
         .onAppear {
             self.watchedApps = self.viewModel.watchedApps()
@@ -506,7 +527,8 @@ private struct AutoActivateSection: View {
 
             HStack(spacing: 6) {
                 Button(String(localized: "Add Current Network")) {
-                    if let ssid = NetworkMonitor.shared.currentSSID, !ssid.isEmpty,
+                    if
+                        let ssid = NetworkMonitor.shared.currentSSID, !ssid.isEmpty,
                         !self.watchedNetworks.contains(ssid)
                     {
                         self.watchedNetworks.append(ssid)
@@ -550,7 +572,7 @@ private struct AutoActivateSection: View {
         let bundleID = bundle?.bundleIdentifier ?? url.deletingPathExtension().lastPathComponent
         let name =
             bundle?.object(forInfoDictionaryKey: "CFBundleName") as? String
-            ?? url.deletingPathExtension().lastPathComponent
+                ?? url.deletingPathExtension().lastPathComponent
 
         guard !self.watchedApps.contains(where: { $0.bundleID == bundleID }) else { return }
 

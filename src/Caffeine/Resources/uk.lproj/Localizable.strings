@@ -93,3 +93,7 @@
 "Enabling this option creates a system file that allows Caffeine Revanced to prevent lid-close sleep without asking for your password each time. Disabling will remove the file automatically." = "Увімкнення цієї опції створює системний файл, який дозволяє Caffeine Revanced запобігати переходу в сон при закритті кришки без запиту пароля щоразу. При вимкненні файл буде видалено автоматично.";
 "Continue" = "Продовжити";
 "Keeps the Mac awake when the lid is closed while Caffeine Revanced is running. Requires one-time administrator authorization." = "Не дозволяє Mac переходити в сон при закритті кришки, поки працює Caffeine Revanced. Потрібна одноразова авторизація адміністратора.";
+
+/* External display activation */
+"Activate when an external display is connected" = "Активувати при підключенні зовнішнього дисплея";
+"Automatically activates when an external display is connected, and deactivates when disconnected." = "Автоматично активується при підключенні зовнішнього дисплея та деактивується при відключенні.";
